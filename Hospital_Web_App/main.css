@@ -1,0 +1,83 @@
+﻿
+body {
+    background-color:rgba( 81,90,99, .90 );
+}
+
+#main-navigation{
+        background-color: #00AAE5;
+    border-color: #00AAE5;
+}
+
+h4.header-text{
+    line-height: 32px;
+    font-size: 20px;
+    color: #66737E;
+    letter-spacing: 1px;
+    text-align: left;
+    font-family: raleway, sans-serif;
+    font-weight: 500;
+}
+
+.navbar-inverse .navbar-nav>li>a  {
+    color: #131415;
+}
+ul.navbar-nav{
+        font-size: 16px;
+        letter-spacing: 1px;
+}
+
+img{
+        width: 100%;
+}
+
+.primary-background {
+    background-color: #3498DB;
+    color: #fff;
+    padding: 17px 20px;
+    min-height: 462px;
+}
+
+.list-unstyled{
+        font-family: 'Titillium Web',"Helvetica Neue", sans-serif;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+pull-right{
+    float: right !important;
+}
+
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 30px;    
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.form-error{
+    border:2px solid red !important;
+}
+
+.error-message{
+    color:red;
+    font-family: monospace;
+    font-weight: 600;
+}
