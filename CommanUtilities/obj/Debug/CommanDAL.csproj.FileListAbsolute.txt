@@ -1,0 +1,5 @@
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.dll
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.pdb
+D:\NRT\Hospital_Web_App\MandiDAL\obj\Debug\ClassLibrary1.dll
+D:\NRT\Hospital_Web_App\MandiDAL\obj\Debug\ClassLibrary1.pdb

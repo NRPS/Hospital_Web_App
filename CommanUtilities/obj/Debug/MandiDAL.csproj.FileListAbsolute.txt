@@ -1,0 +1,39 @@
+D:\MandiApp\MandiAppMVVM\ClassLibrary1\bin\Debug\ClassLibrary1.dll.config
+D:\MandiApp\MandiAppMVVM\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiAppMVVM\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiAppMVVM\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiAppMVVM\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiAppMVVM\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+D:\MandiApp\MandiAppMVVM\MandiDAL\bin\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiAppMVVM\MandiDAL\bin\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiAppMVVM\MandiDAL\obj\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiAppMVVM\MandiDAL\obj\Debug\ClassLibrary1.pdb
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.pdb
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.dll
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.pdb
+H:\Dotnet Project\MandiApplicationSln\MandiDAL\obj\Debug\MandiDAL.csprojResolveAssemblyReference.cache
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.pdb
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.dll
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.pdb
+H:\Dotnet Project\Backup Mandi\MandiApplicationSln\MandiDAL\obj\Debug\MandiDAL.csprojResolveAssemblyReference.cache
+H:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+H:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll
+H:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.pdb
+H:\MandiApp\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.dll
+H:\MandiApp\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+D:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiApplicationSln\MandiDAL\bin\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.dll
+D:\MandiApp\MandiApplicationSln\MandiDAL\obj\Debug\ClassLibrary1.pdb
+D:\MandiApp\MandiApplicationSln\MandiDAL\obj\Debug\MandiDAL.csprojResolveAssemblyReference.cache
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.dll.config
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.dll
+D:\NRT\Hospital_Web_App\MandiDAL\bin\Debug\ClassLibrary1.pdb
+D:\NRT\Hospital_Web_App\MandiDAL\obj\Debug\MandiDAL.csprojResolveAssemblyReference.cache
+D:\NRT\Hospital_Web_App\MandiDAL\obj\Debug\ClassLibrary1.dll
+D:\NRT\Hospital_Web_App\MandiDAL\obj\Debug\ClassLibrary1.pdb

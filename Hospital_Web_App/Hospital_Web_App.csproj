@@ -39,6 +39,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -48,6 +60,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -225,6 +244,7 @@
     <Content Include="bower_components\domReady\LICENSE" />
     <Content Include="bower_components\domReady\package.json" />
     <Content Include="bower_components\domReady\README.md" />
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -536,6 +556,7 @@
     <Content Include="bower_components\jquery\src\wrap.js" />
     <Content Include="bower_components\requirejs\require.js" />
     <Content Include="Config\config.js" />
+    <Content Include="Config\run.js" />
     <Content Include="Image\hosptial1.jpg" />
     <Content Include="Image\hosptial2.jpg" />
     <Content Include="Image\hosptial3.jpg" />
@@ -544,12 +565,21 @@
     <Content Include="Image\hosptial6.jpg" />
     <Content Include="index.html" />
     <Content Include="JS\app.js" />
+    <Content Include="Login\base64Encoder.js" />
+    <Content Include="Login\loginFactory.js" />
     <Content Include="Login\_login.css" />
     <Content Include="Login\_login.html" />
     <Content Include="Login\_login.js" />
+    <Content Include="Login\_signOut.html" />
+    <Content Include="Login\_signOut.js" />
     <Content Include="main.css" />
     <Content Include="main.js" />
     <None Include="main.scss" />
+    <Content Include="Patient_Registration\_patientRegiCtrl.js" />
+    <Content Include="Patient_Registration\_patientRegistration.css" />
+    <Content Include="Patient_Registration\_patientRegistration.html" />
+    <Content Include="Payment\_billEntryForm.html" />
+    <Content Include="Payment\_paymentRecieveForm.html" />
     <Content Include="User_Registration\_signUp.css" />
     <Content Include="User_Registration\_signUp.html" />
     <Content Include="User_Registration\_signUp.js" />

@@ -1,0 +1,108 @@
+﻿<div class="col-lg-12">
+    <div class="form-continer">
+        <div id="formHeader">
+            <h4>Payment Recieved Form</h4>
+        </div>
+        <form class="form-horizontal" role="form" style="margin:10px;">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="patientId">Patient Id:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="patientId" readonly>
+                </div>
+                <label class="control-label col-sm-2" for="patientName">Patient Name:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="patientName" placeholder="Enter Patient Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="age">Patient Age:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="age" placeholder="Enter Age">
+                </div>
+                <label class="control-label col-sm-2" for="attendantName">Attendant Name:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="attendantName" placeholder="Enter Attendant Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="address">Full Address:</label>
+                <div class="col-sm-4">
+                    <textarea class="form-control" ng-model="address" placeholder="Enter Address"></textarea>
+                </div>
+                <label class="control-label col-sm-2" for="contactNo">Contact No:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="contactNo" placeholder="Enter Contact No" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="pType">Patient Type:</label>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <label class="control-label col-sm-2" for="sex">Sex:</label>
+                <div class="col-sm-4">
+                    <input type="text" ng-model="sex" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="consultantName">Consultant Name:</label>
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" ng-model="consultantName" placeholder="Enter Email Id" />
+                </div>
+                <label class="control-label col-sm-2" for="department">Department:</label>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="paymentdate">Payment Date:</label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control" ng-model="paymentdate" />
+                </div>
+                <label class="control-label col-sm-2" for="recieptNo">Reciept No:</label>
+                <div class="col-sm-4">
+                    <input type="text" ng-model="recieptNo" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="amountDue">Amount Remaining:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="amountDue"/>
+                </div>
+                <label class="control-label col-sm-2" for="paymentMode">Payment Mode:</label>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Select</option>
+                    </select>
+                </div>
+            </div>
+            <div style="background: #00BCD4;height: 67px;margin-bottom: 12px;border: 6px solid green;">
+                <div class="form-group" style="margin:2px;margin-top:10px;">
+                    <label class="control-label col-sm-2" for="balanceAmount">Balance Amount:</label>
+                    <div class="col-sm-4">
+                        <input type="text" ng-model="balanceAmount" class="form-control" />
+                    </div>
+                    <label class="control-label col-sm-2" for="payNow">Pay Now:</label>
+                    <div class="col-sm-4">
+                        <input type="text" ng-model="payNow" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-success" style="margin-bottom:5px;">Add New Patient</button>
+                </div>
+                <div class="col-sm-5">
+                    <button type="submit" class="btn btn-info" style="margin-bottom:5px;">Edit</button>
+                </div>
+            </div>
+        </form>
+     </div>
+</div>
