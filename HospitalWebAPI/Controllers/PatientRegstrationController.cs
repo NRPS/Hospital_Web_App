@@ -88,9 +88,12 @@ namespace HospitalWebAPI.Controllers
         {
             return Patients;
         }
-        public IHttpActionResult GetPatient(string PatientID)
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public IHttpActionResult GetPatient(int PatientID)
         {
-            var patient = Patients.FirstOrDefault((p) => p.PatientID == PatientID);
+            var patient = Patients.FirstOrDefault((p) => p.ID == PatientID);
             if (patient == null)
             {
                 return NotFound();

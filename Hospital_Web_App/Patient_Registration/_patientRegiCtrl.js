@@ -2,15 +2,23 @@
 
 define([], function () {
     function PatientRegiCtrl($scope, $http) {
-        var patientId = 'id34';
-        $http({
-            url: "http://localhost:2054/api/patientRegstration/GetPatient",
-            method: "GET",
-            data: "{'PatientID':'" + patientId + "'}",
-            headers: { 'Content-Type': "application/json; charset=utf-8" },
-            dataType: "json",
-            async: false,
-        }).success(function (data, status, headers, config) {
+       // var patientId = 'P2016020001';
+        var uri = "http://localhost:2054/api/patientRegstration";
+        $scope.search = function (event) {
+            if (event.which == 13) {
+                callAjax();
+            }
+        }
+        function callAjax() {
+            $http.get(uri + '/' + $scope.patientId)
+              .success(function (data) {
+                  setData(data);
+              })
+            .error(function (jqXHR, textStatus, err) {
+                $('#product').text('Error: ' + err);
+            });
+        };
+        function setData(data) {
             var response = data;
             if (response) {
                 $scope.patientId = response[0].PatientID;
@@ -38,9 +46,8 @@ define([], function () {
             else {
                 alert('Some thing was wrong');
             }
-        }).error(function (data, status, headers, config) {
-            var status = status;
-        });
+        }
+
     }
     PatientRegiCtrl.$inject = ['$scope', '$http'];
     return PatientRegiCtrl;
