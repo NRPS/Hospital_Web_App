@@ -3,7 +3,7 @@
 require.config({
     paths: {
         'angular': 'bower_components/angular/angular.min',
-       // 'angularAMD': 'bower_components/angularAMD/angularAMD.min',
+        //'angularAMD': 'bower_components/angularAMD/angularAMD.min',
        // 'domReady': 'bower_components/domReady/domReady',
         'ngRoute': 'bower_components/angular-route/angular-route.min',
         'ngCookies': 'bower_components/angular-cookies/angular-cookies.min',
@@ -31,10 +31,9 @@ require.config({
         }
     }
 });
-require(['ngRoute', 'ngCookies', 'bootstrap','JS/app'],
+require(['angular','ngRoute', 'ngCookies', 'bootstrap','JS/app'],
     function () {
         'use strict';
-
         angular.bootstrap(document, ['hospital']);
     }
 );

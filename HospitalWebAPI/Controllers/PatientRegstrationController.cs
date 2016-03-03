@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace HospitalWebAPI.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class PatientRegstrationController : ApiController
     {
 
@@ -84,12 +84,10 @@ namespace HospitalWebAPI.Controllers
             return du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + patient.PatientID + "')");
         }
 
-
-        //public IEnumerable<Patient> GetAllPatient()
-        //{
-        //    return Patients;
-        //}
-
+        public IEnumerable<Patient> GetAllPatient()
+        {
+            return Patients;
+        }
         public IHttpActionResult GetPatient(string PatientID)
         {
             var patient = Patients.FirstOrDefault((p) => p.PatientID == PatientID);
