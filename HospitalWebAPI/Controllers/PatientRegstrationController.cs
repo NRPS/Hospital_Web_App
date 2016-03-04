@@ -84,9 +84,15 @@ namespace HospitalWebAPI.Controllers
             return du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + patient.PatientID + "')");
         }
 
-        public IEnumerable<Patient> GetAllPatient()
+        public IEnumerable<Patient> Get()
         {
             return Patients;
+        }
+
+        public Patient Get(string ID)
+        {
+            Patient patient = Patients.FirstOrDefault((p) => p.PatientID == ID);
+            return patient;
         }
 
         [HttpGet]

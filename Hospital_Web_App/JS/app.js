@@ -9,9 +9,10 @@ define(
         'Login/base64Encoder',
         'Login/loginFactory',
         'Login/_signOut',
-        'Patient_Registration/_patientRegiCtrl'
+        'Patient_Registration/_patientRegiCtrl',
+        'Patient_Registration/_patientFactory'
     ],
-    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl) {
+    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService) {
         
         var app = angular.module('hospital', ['ngRoute', 'ngCookies']);
 
@@ -19,6 +20,7 @@ define(
         app.run(RunApp);
         app.factory('Base64', Base64Encoder);
         app.factory('LoginService', logInfactory);
+        app.factory('PatientService', PatientService)
         app.controller('LoginCtrl', Login);
         app.controller('UserRegistrationCtrl', SignUp);
         app.controller('SignOutCtrl', SignOutCtrl)

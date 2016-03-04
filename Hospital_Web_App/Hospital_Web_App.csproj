@@ -575,6 +575,7 @@
     <Content Include="main.css" />
     <Content Include="main.js" />
     <None Include="main.scss" />
+    <Content Include="Patient_Registration\_patientFactory.js" />
     <Content Include="Patient_Registration\_patientRegiCtrl.js" />
     <Content Include="Patient_Registration\_patientRegistration.css" />
     <Content Include="Patient_Registration\_patientRegistration.html" />
