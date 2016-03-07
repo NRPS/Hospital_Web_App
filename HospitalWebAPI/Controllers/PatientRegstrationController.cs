@@ -27,32 +27,27 @@ namespace HospitalWebAPI.Controllers
         private void GetPatientList()
         {
 
-            var PatientList = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
+             Patients = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
             new Patient
             {
-               // ID = r.Field<int>("ID"),
+                ID = r.Field<Int32>("ID"),
                 PatientID = r.Field<string>("PatientID"),
                 Name = r.Field<string>("name"),
                 Address = r.Field<string>("Address"),
                 AttendentName = r.Field<string>("AttendentName"),
                 ConsultantName = r.Field<string>("ConsultantName"),
-               // ConsultantFee = r.Field<int>("ConsultantFee"),
+                 ConsultantFee = r.Field<Decimal>("ConsultantFee"),
                 Email = r.Field<string>("Email"),
                 Sex = r.Field<string>("Sex"),
                 ContactNumber1 = r.Field<string>("ContactNumber1"),
                 ContactNumber2 = r.Field<string>("ContactNumber2"),
-               // DepartmentID = r.Field<int>("DepartmentID"),
-              //  IsFeeFree = r.Field<bool>("IsFeeFree"),
-              //  RefDrID = r.Field<int>("RefDrID"),
-              //  RegDate = r.Field<DateTime>("RegDate"),
+                DepartmentID = r.Field<Int16>("DepartmentID"),
+                 IsFeeFree = r.Field<Boolean>("IsFeeFree"),
+                RefDrID = r.Field<Int16>("RefDrID"),
+               RegDate = r.Field<DateTime>("RegDate"),
                 RegTime = r.Field<string>("RegTime"),
                 Remarks = r.Field<string>("Remarks")
             }).ToList();
-
-            foreach (Patient patient in PatientList)
-            {
-                Patients.Add(patient);
-            }
         }
        
         public DataSet GetPatient(string TableName, string PatientID)
@@ -95,8 +90,7 @@ namespace HospitalWebAPI.Controllers
             return patient;
         }
 
-        [HttpGet]
-        [Route("{id:int}")]
+   
         public IHttpActionResult GetPatient(int PatientID)
         {
             var patient = Patients.FirstOrDefault((p) => p.ID == PatientID);

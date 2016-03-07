@@ -86,7 +86,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\IndoorPatientController.cs" />
+    <Compile Include="Controllers\IndoorPatientDetailsController.cs" />
+    <Compile Include="Controllers\MedicineCompanyController.cs" />
+    <Compile Include="Controllers\MedicineController.cs" />
+    <Compile Include="Controllers\PatientBillController.cs" />
+    <Compile Include="Controllers\PatientBillDetailsController.cs" />
     <Compile Include="Controllers\PatientRegstrationController.cs" />
+    <Compile Include="Controllers\ReferedByController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
