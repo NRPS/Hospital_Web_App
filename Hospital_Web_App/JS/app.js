@@ -10,11 +10,13 @@ define(
         'Login/loginFactory',
         'Login/_signOut',
         'Patient_Registration/_patientRegiCtrl',
-        'Patient_Registration/_patientFactory'
+        'Patient_Registration/_patientFactory',
+        'Datepicker/_datepickerCtrl',
+        'bower_components/angular-ui-bootstrap/ui-bootstrap',
     ],
-    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService) {
+    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService, DatePickerCtrl) {
         
-        var app = angular.module('hospital', ['ngRoute', 'ngCookies']);
+        var app = angular.module('hospital', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
 
         app.config(Config);
         app.run(RunApp);
@@ -25,6 +27,7 @@ define(
         app.controller('UserRegistrationCtrl', SignUp);
         app.controller('SignOutCtrl', SignOutCtrl)
         app.controller('PatientRegiCtrl', PatientRegiCtrl)
+        app.controller('DatePickerCtrl', DatePickerCtrl);
         app.controller('AppCtrl', ['$scope', '$rootScope', '$cookieStore', function ($scope, $rootScope, $cookieStore) {
             if ($cookieStore.get('globals')!=undefined) {
                 $scope.login = false;

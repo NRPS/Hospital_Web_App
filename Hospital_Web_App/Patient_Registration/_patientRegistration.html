@@ -3,13 +3,14 @@
         <div id="formHeader">
             <h4>Patient Registration</h4>
         </div>
-        <form class="form-horizontal" role="form" style="margin:10px;">
+        <form class="form-horizontal" role="form" style="margin:10px;" name="form1" novalidate>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="patientId">Patient Id:</label>
                 <div class="col-sm-4">
                     <div class="inner-addon right-inner-addon">
                         <i class="glyphicon glyphicon-search"></i>
-                        <input type="text" class="form-control" ng-model="patientId" ng-keypress="search($event)">
+                        <input type="text" class="form-control" ng-model="patientId" name="patientId" ng-keypress="search($event)" required ng-class="{'form-error':submitted && form1.patientId.$error.required}">
+                        <span class="error-message" ng-show="submitted && form1.patientId.$error.required">Please enter Patient Id</span>
                     </div>
                 </div>
                 <label class="control-label col-sm-2" for="patientName">Patient Name:</label>
@@ -17,6 +18,8 @@
                     <input type="text" class="form-control" ng-model="patientName" placeholder="Enter Patient Name">
                 </div>
             </div>
+            </form>
+        <form class="form-horizontal" role="form" style="margin:10px;">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="age">Patient Age:</label>
                 <div class="col-sm-4">
@@ -58,9 +61,12 @@
                 </div>
                 <label class="control-label col-sm-2" for="sex">Sex:</label>
                 <div class="col-sm-4">
-                    <input type="radio" id="male" name="sex" ng-model="male"/>
+                    <input type="radio" id="male" name="sex" ng-model="male" />
+
                     <label for="male" style="margin-top:8px;"><span></span>Male</label>
-                    <input type="radio" id="female" name="sex" ng-model="female"/>
+
+                    <input type="radio" id="female" name="sex" ng-model="female" />
+
                     <label for="female"><span></span>Female</label>
                 </div>
             </div>
@@ -71,7 +77,7 @@
                 </div>
                 <label class="control-label col-sm-2" for="department">Department:</label>
                 <div class="col-sm-4">
-                    <select class="form-control">
+                    <select class="form-control" ng-model="department">
                         <option>Select</option>
                     </select>
                 </div>
@@ -89,7 +95,12 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="dateOfAdmit">Date:</label>
                 <div class="col-sm-4">
-                    <input type="date" class="form-control" ng-model="dateOfAdmit">
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePickerPopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
             </div>
             <div class="form-group">
@@ -97,10 +108,13 @@
 
                 </div>
                 <div class="col-sm-2">
-                    <button type="submit" class="btn btn-success" style="margin-bottom:5px;">Add New Patient</button>
+                    <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPatient()">Add New Patient</button>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-2">
                     <button type="submit" class="btn btn-info" style="margin-bottom:5px;">Edit</button>
+                </div>
+                <div class="col-sm-6">
+                    <uib-alert>{{alert.msg}}</uib-alert>
                 </div>
             </div>
         </form>

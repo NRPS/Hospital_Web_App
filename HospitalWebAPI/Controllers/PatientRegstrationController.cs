@@ -95,6 +95,11 @@ namespace HospitalWebAPI.Controllers
             return patient;
         }
 
+        public string Post(string PatientData)
+        {
+            return "Patient Details Saved Successfully";
+        }
+
         [HttpGet]
         [Route("{id:int}")]
         public IHttpActionResult GetPatient(int PatientID)
