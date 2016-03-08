@@ -44,7 +44,7 @@ namespace HospitalWebAPI.Controllers
                 DepartmentID = r.Field<Int16>("DepartmentID"),
                  IsFeeFree = r.Field<Boolean>("IsFeeFree"),
                 RefDrID = r.Field<Int16>("RefDrID"),
-               RegDate = r.Field<DateTime>("RegDate"),
+              // RegDate = r.Field<DateTime>("RegDate"),
                 RegTime = r.Field<string>("RegTime"),
                 Remarks = r.Field<string>("Remarks")
             }).ToList();
@@ -57,16 +57,27 @@ namespace HospitalWebAPI.Controllers
         }
         public bool AddPatient(Patient patient)
         {
-            return du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
+
+            Basic basic = new Basic();
+            patient.ID = basic.GetMax("PatientRegstration", "ID");
+            patient.PatientID = basic.GetKey(patient.ID);
+
+            du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
                                 ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
                                 ConsultantFee ,   RegDate ,   RegTime ,   UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
                                 CompanyCode ,   Remarks ,   IsPaymentPaid ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
-            + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
-            + ", '" + patient.Type + "', " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
-            + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
-            + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
-            + "', " + patient.IsPaymentPaid + ")");
+           + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
+           + ", '" + patient.Type + "', " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
+           + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
+           + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
+           + "', " + patient.IsPaymentPaid + ")");
+
+
+            return true;
+
+
+
         }
 
         public bool UpdatePatient(Patient patient)

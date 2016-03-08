@@ -52,11 +52,13 @@ namespace HospitalWebAPI.Controllers
         // PUT: api/ReferedBy/5
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE: api/ReferedBy/5
         public void Delete(int id)
         {
+
         }
 
         private void GetReferedByList()
