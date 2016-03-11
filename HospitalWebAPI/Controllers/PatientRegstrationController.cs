@@ -27,32 +27,27 @@ namespace HospitalWebAPI.Controllers
         private void GetPatientList()
         {
 
-            var PatientList = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
+             Patients = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
             new Patient
             {
-               // ID = r.Field<int>("ID"),
+                ID = r.Field<Int32>("ID"),
                 PatientID = r.Field<string>("PatientID"),
                 Name = r.Field<string>("name"),
                 Address = r.Field<string>("Address"),
                 AttendentName = r.Field<string>("AttendentName"),
                 ConsultantName = r.Field<string>("ConsultantName"),
-               // ConsultantFee = r.Field<int>("ConsultantFee"),
+                 ConsultantFee = r.Field<Decimal>("ConsultantFee"),
                 Email = r.Field<string>("Email"),
                 Sex = r.Field<string>("Sex"),
                 ContactNumber1 = r.Field<string>("ContactNumber1"),
                 ContactNumber2 = r.Field<string>("ContactNumber2"),
-               // DepartmentID = r.Field<int>("DepartmentID"),
-              //  IsFeeFree = r.Field<bool>("IsFeeFree"),
-              //  RefDrID = r.Field<int>("RefDrID"),
-              //  RegDate = r.Field<DateTime>("RegDate"),
+                DepartmentID = r.Field<Int16>("DepartmentID"),
+                 IsFeeFree = r.Field<Boolean>("IsFeeFree"),
+                RefDrID = r.Field<Int16>("RefDrID"),
+              // RegDate = r.Field<DateTime>("RegDate"),
                 RegTime = r.Field<string>("RegTime"),
                 Remarks = r.Field<string>("Remarks")
             }).ToList();
-
-            foreach (Patient patient in PatientList)
-            {
-                Patients.Add(patient);
-            }
         }
        
         public DataSet GetPatient(string TableName, string PatientID)
@@ -62,16 +57,27 @@ namespace HospitalWebAPI.Controllers
         }
         public bool AddPatient(Patient patient)
         {
-            return du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
+
+            Basic basic = new Basic();
+            patient.ID = basic.GetMax("PatientRegstration", "ID");
+            patient.PatientID = basic.GetKey(patient.ID);
+
+            du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
                                 ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
                                 ConsultantFee ,   RegDate ,   RegTime ,   UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
                                 CompanyCode ,   Remarks ,   IsPaymentPaid ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
-            + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
-            + ", '" + patient.Type + "', " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
-            + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
-            + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
-            + "', " + patient.IsPaymentPaid + ")");
+           + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
+           + ", '" + patient.Type + "', " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
+           + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
+           + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
+           + "', " + patient.IsPaymentPaid + ")");
+
+
+            return true;
+
+
+
         }
 
         public bool UpdatePatient(Patient patient)
@@ -95,13 +101,9 @@ namespace HospitalWebAPI.Controllers
             return patient;
         }
 
-        public string Post(string PatientData)
-        {
-            return "Patient Details Saved Successfully";
-        }
-
         [HttpGet]
         [Route("{id:int}")]
+
         public IHttpActionResult GetPatient(int PatientID)
         {
             var patient = Patients.FirstOrDefault((p) => p.ID == PatientID);

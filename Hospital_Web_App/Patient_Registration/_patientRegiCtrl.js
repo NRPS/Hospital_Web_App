@@ -3,17 +3,22 @@
 define([], function () {
     function PatientRegiCtrl($scope, $http, PatientService) {
         // var patientId = 'P2016020001';
+        var ajaxResponse;
         $scope.female = false;
         $scope.male = false;
+        
+        getReferedByList();
         $scope.search = function (event) {
             if (event.which == 13) {
                 if (!$scope.form1.$valid) {
                     $scope.submitted = true;
                 }
                 else if ($scope.form1.$valid) {
+                    $scope.isLoading = true;
                     var response = PatientService.getPatientDataById($scope.patientId);
                     response.success(function (data, status, headers, config) {
                         setData(data);
+                        $scope.isLoading = false;
                     })
                     response.error(function (data, status, headers, config) {
                         alert(status.Message);
@@ -21,7 +26,7 @@ define([], function () {
                 }
             }
         }
-        
+    
         $scope.addNewPatient = function () {
             $scope.alert = { msg: 'Hello alert!' };
             var patientData = {};
@@ -65,6 +70,18 @@ define([], function () {
             $scope.popup.opened = true;
         };
 
+        function getReferedByList(){
+            ajaxResponse = PatientService.getReferedByList();
+            ajaxResponse.success(function (data, status, headers, config) {
+                $scope.drName = data[0];
+                $scope.referedByList = data;
+                
+            })
+            ajaxResponse.error(function (data, status, headers, config) {
+                alert(status.Message);
+            });
+        }
+
         function setData(response) {
             if (response) {
                 $scope.patientId = response.PatientID;
@@ -87,7 +104,14 @@ define([], function () {
                     case 'M': $scope.male = true;
                         break;
                 }
-
+                 if ($scope.referedByList) {
+                     var len=$scope.referedByList.length;
+                     for (var i = 0; i < len;i++){
+                         if ($scope.referedByList[i].RefID === response.RefDrID) {
+                             $scope.drName = $scope.referedByList[i];
+                         }
+                     }
+                 }
             }
             else {
                 alert('Some thing was wrong');

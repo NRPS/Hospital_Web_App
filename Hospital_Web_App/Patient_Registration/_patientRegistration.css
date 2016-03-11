@@ -43,3 +43,16 @@ input[type="radio"]:checked + label span {
     }
 }
 
+.loading-image{
+    position: relative;
+    top: -419px;
+    height: 151px;
+    width: 100%;
+    border-radius: 94px;
+}
+
+.loading-image-container{
+        position: relative;
+    width: 34%;
+    margin: auto;
+}

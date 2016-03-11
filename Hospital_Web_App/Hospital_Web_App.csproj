@@ -246,6 +246,7 @@
     <Content Include="bower_components\domReady\LICENSE" />
     <Content Include="bower_components\domReady\package.json" />
     <Content Include="bower_components\domReady\README.md" />
+    <Content Include="Image\loading.gif" />
     <Content Include="JS\app1.js" />
     <Content Include="main1.js" />
     <Content Include="packages.config" />

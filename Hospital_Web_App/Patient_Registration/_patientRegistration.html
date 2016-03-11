@@ -43,9 +43,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="referBy">Refer By:</label>
                 <div class="col-sm-4">
-                    <select class="form-control">
-                        <option>Select</option>
-                    </select>
+                    <select class="form-control" ng-options="item.RefID as item.Name for item in referedByList track by item.RefID" ng-model="drName"></select>
                 </div>
                 <label class="control-label col-sm-2" for="email">Email Id:</label>
                 <div class="col-sm-4">
@@ -118,5 +116,8 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="loading-image-container" ng-if="isLoading">
+        <img src="../Image/loading.gif" class="loading-image" />
     </div>
 </div>

@@ -17,9 +17,16 @@ namespace CommanUtilities
         private static OleDbConnection accessConnection = null;
         public OleDbConnection GetConnection()
         {
+
+            //string conString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].‌​ToString();
+            
+
             if (accessConnection == null)
             {
-                string strAccessConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = E:\\Web-Apps\\Hospital_Web_App\\Data\\HospitalDB.mdb;Persist Security Info=False;";
+
+                string strAccessConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ToString();
+
+                // string strAccessConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source = E:\\Web-Apps\\Hospital_Web_App\\Data\\HospitalDB.mdb;Persist Security Info=False;";
 
                 accessConnection = new OleDbConnection(strAccessConnectionString);
                 accessConnection.Open();
