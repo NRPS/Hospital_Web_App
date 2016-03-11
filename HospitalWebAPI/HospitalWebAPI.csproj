@@ -93,6 +93,7 @@
     <Compile Include="Controllers\PatientBillController.cs" />
     <Compile Include="Controllers\PatientBillDetailsController.cs" />
     <Compile Include="Controllers\PatientRegstrationController.cs" />
+    <Compile Include="Controllers\PatientTypeController.cs" />
     <Compile Include="Controllers\ReferedByController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -106,6 +107,7 @@
     <Compile Include="Models\PatientBill.cs" />
     <Compile Include="Models\PatientBillDetails.cs" />
     <Compile Include="Models\PatientRegstration.cs" />
+    <Compile Include="Models\PatientType.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\PaymentModeDetails.cs" />
     <Compile Include="Models\ReferedBy.cs" />

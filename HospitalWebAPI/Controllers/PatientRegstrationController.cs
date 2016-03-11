@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace HospitalWebAPI.Controllers
 {
-    
+
     public class PatientRegstrationController : ApiController
     {
 
@@ -24,38 +24,89 @@ namespace HospitalWebAPI.Controllers
         {
             GetPatientList();
         }
+
+        #region  CURD
+
+        // POST: api/ReferedBy
+        public IHttpActionResult Post([FromBody]Patient patient)
+        {
+            if (AddPatient(patient) == true)
+                return Ok();
+            else
+                return BadRequest();
+        }
+        public IHttpActionResult Put([FromBody]Patient patient)
+        {
+            if (UpdatedPatient(patient) == true)
+                return Ok();
+            else
+                return BadRequest();
+        }
+        public IHttpActionResult Delete(string ID)
+        {
+            if (UpdatedPatient(ID) == true)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
+        public IEnumerable<Patient> Get()
+        {
+            return Patients;
+        }
+
+        //public Patient Get(string ID)
+        //{
+        //    Patient patient = Patients.FirstOrDefault((p) => p.PatientID == ID);
+        //    return patient;
+        //}
+
+        public IHttpActionResult Get(string ID)
+        {
+            var patient = Patients.FirstOrDefault((p) => p.PatientID == ID);
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            return Ok(patient);
+        }
+
+        #endregion
+
+        #region Priavte
+
         private void GetPatientList()
         {
 
-             Patients = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
-            new Patient
-            {
-                ID = r.Field<Int32>("ID"),
-                PatientID = r.Field<string>("PatientID"),
-                Name = r.Field<string>("name"),
-                Address = r.Field<string>("Address"),
-                AttendentName = r.Field<string>("AttendentName"),
-                ConsultantName = r.Field<string>("ConsultantName"),
-                 ConsultantFee = r.Field<Decimal>("ConsultantFee"),
-                Email = r.Field<string>("Email"),
-                Sex = r.Field<string>("Sex"),
-                ContactNumber1 = r.Field<string>("ContactNumber1"),
-                ContactNumber2 = r.Field<string>("ContactNumber2"),
-                DepartmentID = r.Field<Int16>("DepartmentID"),
-                 IsFeeFree = r.Field<Boolean>("IsFeeFree"),
-                RefDrID = r.Field<Int16>("RefDrID"),
-              // RegDate = r.Field<DateTime>("RegDate"),
+            Patients = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
+           new Patient
+           {
+               ID = r.Field<Int32>("ID"),
+               PatientID = r.Field<string>("PatientID"),
+               Name = r.Field<string>("name"),
+               Address = r.Field<string>("Address"),
+               AttendentName = r.Field<string>("AttendentName"),
+               ConsultantName = r.Field<string>("ConsultantName"),
+               ConsultantFee = r.Field<Decimal>("ConsultantFee"),
+               Email = r.Field<string>("Email"),
+               Sex = r.Field<string>("Sex"),
+               ContactNumber1 = r.Field<string>("ContactNumber1"),
+               ContactNumber2 = r.Field<string>("ContactNumber2"),
+               DepartmentID = r.Field<Int16>("DepartmentID"),
+               IsFeeFree = r.Field<Boolean>("IsFeeFree"),
+               RefDrID = r.Field<Int16>("RefDrID"),
+                // RegDate = r.Field<DateTime>("RegDate"),
                 RegTime = r.Field<string>("RegTime"),
-                Remarks = r.Field<string>("Remarks")
-            }).ToList();
+               Remarks = r.Field<string>("Remarks")
+           }).ToList();
         }
-       
-        public DataSet GetPatient(string TableName, string PatientID)
+
+        private DataSet GetPatient(string TableName, string PatientID)
         {
             String condition = PatientID == "" ? "" : " PatientID='" + PatientID + "'";
             return du.GetTable(TableName, condition);
         }
-        public bool AddPatient(Patient patient)
+        private bool AddPatient(Patient patient)
         {
 
             Basic basic = new Basic();
@@ -80,36 +131,21 @@ namespace HospitalWebAPI.Controllers
 
         }
 
-        public bool UpdatePatient(Patient patient)
+        private bool UpdatedPatient(Patient patient)
         {
-            return du.AddRow(@"update PatientRegstration set Name= '" + patient.Name + "' where PatientID = '" +patient.PatientID  + "')");
+            du.AddRow(@"update PatientRegstration set Name= '" + patient.Name + "' where PatientID = '" + patient.PatientID + "')");
+
+            return true;
         }
 
-        public bool DeletePatient(Patient patient)
+        private bool UpdatedPatient(string ID)
         {
-            return du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + patient.PatientID + "')");
+            du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + ID + "')");
+
+            return true;
         }
 
-        public IEnumerable<Patient> Get()
-        {
-            return Patients;
-        }
+        #endregion
 
-        public Patient Get(string ID)
-        {
-            Patient patient = Patients.FirstOrDefault((p) => p.PatientID == ID);
-            return patient;
-        }
-
-   
-        public IHttpActionResult GetPatient(int PatientID)
-        {
-            var patient = Patients.FirstOrDefault((p) => p.ID == PatientID);
-            if (patient == null)
-            {
-                return NotFound();
-            }
-            return Ok(patient);
-        }
     }
 }

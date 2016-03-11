@@ -38,3 +38,4 @@ D:\MandiApp\Hospital_Web_App\Hospital_Web_App\bin\System.Web.Http.xml
 D:\MandiApp\Hospital_Web_App\Hospital_Web_App\bin\System.Web.Http.Cors.xml
 D:\MandiApp\Hospital_Web_App\Hospital_Web_App\obj\Debug\Hospital_Web_App.dll
 D:\MandiApp\Hospital_Web_App\Hospital_Web_App\obj\Debug\Hospital_Web_App.pdb
+D:\MandiApp\Hospital_Web_App\Hospital_Web_App\obj\Debug\Hospital_Web_App.csprojResolveAssemblyReference.cache

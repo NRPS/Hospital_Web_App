@@ -22,6 +22,10 @@ namespace HospitalWebAPI.Controllers
         {
             GetReferedByList();
         }
+
+        #region  CURD
+
+
         // GET: api/ReferedBy
         public IEnumerable<ReferedBy> Get()
         {
@@ -40,13 +44,12 @@ namespace HospitalWebAPI.Controllers
         }
 
         // POST: api/ReferedBy
-        public IHttpActionResult Post(ReferedBy referedBy)
+        public IHttpActionResult Post([FromBody]ReferedBy referedBy)
         {
             if (AddRefBy(referedBy) == true)
                 return Ok();
             else
                 return BadRequest();
-
         }
 
         // PUT: api/ReferedBy/5
@@ -61,25 +64,29 @@ namespace HospitalWebAPI.Controllers
 
         }
 
+        #endregion
+
+        #region Priavte
+
         private void GetReferedByList()
         {
 
-            
+
             referedByList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
             new ReferedBy
             {
                 Name = r.Field<string>("name"),
                 ContactNumber = r.Field<string>("ContactNumber"),
-                RefID =  r.Field<Int16>("RefID")
+                RefID = r.Field<Int16>("RefID")
             }).ToList();
-
-           
         }
 
-        public bool AddRefBy(ReferedBy referedBy)
+        private bool AddRefBy(ReferedBy referedBy)
         {
             return du.AddRow(@"insert into ReferedBy(  RefID ,    Name ,   ContactNumber)
             values(" + referedBy.RefID + ", '" + referedBy.Name + "', '" + referedBy.ContactNumber + "')");
         }
+
+        #endregion
     }
 }
