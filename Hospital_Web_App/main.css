@@ -1,21 +1,30 @@
-﻿
-body {
+﻿body {
     background-color:rgba( 81,90,99, .90 );
 }
 
 #main-navigation{
         background-color: #00AAE5;
     border-color: #00AAE5;
+    margin-bottom: 0px;
+    min-height:30px;
+    margin-top: 5px;
 }
 
 h4.header-text{
     line-height: 32px;
     font-size: 20px;
-    color: #66737E;
+    color: #FFEB3B;
     letter-spacing: 1px;
     text-align: left;
     font-family: raleway, sans-serif;
     font-weight: 500;
+    text-align:center;
+}
+
+header{
+    background-color:#4CAF50;
+    border-top-left-radius: 86px;
+    border-bottom-right-radius: 86px;
 }
 
 .navbar-inverse .navbar-nav>li>a  {
@@ -109,4 +118,43 @@ pull-right{
     letter-spacing: 0.2px;
     color: white;
     font-family: sans-serif;
+}
+
+input[type="date"] {
+     -webkit-align-items: center;
+     display: -webkit-inline-flex;
+     font-family: monospace;
+     overflow: hidden;
+     padding: 0;
+     -webkit-padding-start: 1px;
+}
+
+input::-webkit-datetime-edit {
+    -webkit-flex: 1;
+    -webkit-user-modify: read-only !important;
+    display: inline-block;
+    min-width: 0;
+    overflow: hidden;
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+    -webkit-user-modify: read-only !important;
+    display: inline-block;
+    padding: 1px 0;
+    white-space: pre;
+}
+
+#myNavbar{
+        top: -14px;
+    position: relative;
+}
+
+.form-error{
+    border:2px solid red !important;
+}
+
+.error-message{
+    color:red;
+    font-family: monospace;
+    font-weight: 600;
 }

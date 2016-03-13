@@ -11,11 +11,14 @@
     <link href="Login/_login.css" rel="stylesheet" />
     <link href="Patient_Registration/_patientRegistration.css" rel="stylesheet" />
 
-    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 </head>
 <body>
     <div class="container" ng-controller="AppCtrl">
         <header class="row">
+            <h4 class="header-text">Hospital Management System</h4>
+        </header>
+        <div class="row">
             <nav class="navbar navbar-inverse" id="main-navigation">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -24,7 +27,6 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h4 class="header-text">Hospital Management System</h4>
                     </div>
                     <br />
                     <div class="collapse navbar-collapse" id="myNavbar">
@@ -41,7 +43,7 @@
                     </div>
                 </div>
             </nav>
-        </header>
+        </div>
         <div class="row">
             <div ui-view></div>
         </div>
