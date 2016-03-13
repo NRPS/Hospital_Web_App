@@ -8,7 +8,7 @@ define([], function () {
         $scope.male = false;
 
         getReferedByList();
-       // getDeparmentList();
+        getDeparmentList();
         getPatientTypeList();
 
         $scope.search = function (event) {
@@ -124,12 +124,7 @@ define([], function () {
                 var dateOfAdmit = new Date(response.RegDate);
                 dateOfAdmit = dateOfAdmit.getFullYear() + '-' + (dateOfAdmit.getMonth() + 1) + '-' + dateOfAdmit.getDate();
                 $scope.dt = new Date(dateOfAdmit);
-                switch (response.Sex) {
-                    case 'F': $scope.female = true;
-                        break
-                    case 'M': $scope.male = true;
-                        break;
-                }
+                $scope.sex = response.Sex;
                 if ($scope.referedByList) {
                     var len = $scope.referedByList.length;
                     for (var i = 0; i < len; i++) {
@@ -168,13 +163,27 @@ define([], function () {
             patientData.ConsultantFee = $scope.consultantFee;
             patientData.Remarks = $scope.remarks;
             patientData.RegDate = $scope.dt;
-            if ($scope.female == true) {
-                patientData.Sex = 'F'
+            patientData.Sex = $scope.sex;
+            if($scope.patientType){
+                //var len = $scope.patientTypeList.length;
+                if (typeof ($scope.patientType) === "object") {
+                    patientData.Type = $scope.patientType.ID;
+                    }
+                else {
+                    patientData.Type = $scope.patientType.Type;
+                }
             }
-            if ($scope.male == true) {
-                patientData.Sex = 'M'
+            if (typeof ($scope.depName) === "object") {
+                patientData.DepartmentID = $scope.depName.ID;
             }
+            else{
+                patientData.DepartmentID = $scope.depName
+            }
+           
             return patientData;
+        }
+        function isArray(x) {
+            return x.constructor.toString().indexOf("Array") > -1;
         }
     }
     PatientRegiCtrl.$inject = ['$scope', '$http', 'PatientService'];

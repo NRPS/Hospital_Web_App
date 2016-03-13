@@ -7,6 +7,7 @@ namespace HospitalWebAPI.Models
 {
     public class PatientBill 
     {
+        public Int32 ID { get; set; }
         public string BillNo { get; set; }
         public string PatientID { get; set; }
         public DateTime BillDate { get; set; }       
@@ -15,5 +16,6 @@ namespace HospitalWebAPI.Models
         public DateTime ModifiyDate { get; set; }
         public int IsDeleted { get; set; }        
         public string Remarks { get; set; }
+        public List<PatientBillDetails> BillDetails { get; set; }
     }
 } 

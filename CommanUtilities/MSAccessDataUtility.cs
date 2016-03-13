@@ -68,16 +68,34 @@ namespace CommanUtilities
         {
             return GetTable(TableName,"");
         }
+
+        public DataTable GetTableValue(string TableName, string Condition)
+        {
+            String condition = Condition == "" ? "" : "  where " + Condition;
+            command.CommandText = @"select * from " + TableName + condition;
+            DataTable dt = new DataTable();
+            OleDbDataAdapter adapter = new OleDbDataAdapter(command);
+            adapter.Fill(dt);
+
+           // DataSet ds = new DataSet();
+           // ds.Tables.Add(dt);
+
+           // dt.Dispose();
+            return dt;
+        }
+
         public DataSet GetTable(string TableName, string Condition)
         {
-            String condition = Condition == "" ? "" : "  where fyear = 2014 and " + Condition;
-            command.CommandText = @"select * from " + TableName + Condition;
+            String condition = Condition == "" ? "" : "  where " + Condition;
+            command.CommandText = @"select * from " + TableName + condition;
             DataTable dt = new DataTable();
             OleDbDataAdapter adapter = new OleDbDataAdapter(command);
             adapter.Fill(dt);
             
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
+
+            dt.Dispose();
             return ds;
         }
 

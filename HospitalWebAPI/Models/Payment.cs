@@ -7,6 +7,7 @@ namespace HospitalWebAPI.Models
 {
     public class Payment 
     {
+        public Int32 ID { get; set; }
         public string PaymentReceiptNo { get; set; } 
         public string PatientID { get; set; }
         public DateTime PaymentDate { get; set; }  

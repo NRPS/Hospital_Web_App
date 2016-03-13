@@ -38,7 +38,7 @@ define([], function () {
             return response;
         };
 
-        service.updatePatient = function () {
+        service.updatePatient = function (patient) {
             response = $http({
                 url: uri + 'patientRegstration',
                 data: JSON.stringify(patient),

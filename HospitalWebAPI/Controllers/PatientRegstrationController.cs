@@ -19,10 +19,11 @@ namespace HospitalWebAPI.Controllers
 
         MSAccessDataUtility du = new MSAccessDataUtility();
         List<Patient> Patients = new List<Patient>();
+        string TableName = "PatientRegstration";
 
         PatientRegstrationController()
         {
-            GetPatientList();
+
         }
 
         #region  CURD
@@ -52,6 +53,7 @@ namespace HospitalWebAPI.Controllers
 
         public IEnumerable<Patient> Get()
         {
+            GetPatientList(GetPatient(TableName, ""));
             return Patients;
         }
 
@@ -63,6 +65,8 @@ namespace HospitalWebAPI.Controllers
 
         public IHttpActionResult Get(string ID)
         {
+            GetPatientList(GetPatient(TableName, ID));
+
             var patient = Patients.FirstOrDefault((p) => p.PatientID == ID);
             if (patient == null)
             {
@@ -75,57 +79,100 @@ namespace HospitalWebAPI.Controllers
 
         #region Priavte
 
-        private void GetPatientList()
+        private void GetPatientList(DataSet PatientsDS)
         {
 
-            Patients = du.GetTable("PatientRegstration").Tables[0].AsEnumerable().Select(r =>
-           new Patient
-           {
-               ID = r.Field<Int32>("ID"),
-               PatientID = r.Field<string>("PatientID"),
-               Name = r.Field<string>("name"),
-               Address = r.Field<string>("Address"),
-               AttendentName = r.Field<string>("AttendentName"),
-               ConsultantName = r.Field<string>("ConsultantName"),
-               ConsultantFee = r.Field<Decimal>("ConsultantFee"),
-               Email = r.Field<string>("Email"),
-               Sex = r.Field<string>("Sex"),
-               ContactNumber1 = r.Field<string>("ContactNumber1"),
-               ContactNumber2 = r.Field<string>("ContactNumber2"),
-               DepartmentID = r.Field<Int16>("DepartmentID"),
-               IsFeeFree = r.Field<Boolean>("IsFeeFree"),
-               RefDrID = r.Field<Int16>("RefDrID"),
-                // RegDate = r.Field<DateTime>("RegDate"),
-                RegTime = r.Field<string>("RegTime"),
-               Remarks = r.Field<string>("Remarks")
-           }).ToList();
+            try
+            {
+                Patients = PatientsDS.Tables[0].AsEnumerable().Select(r =>
+                new Patient
+                {
+                    ID = r.Field<Int32>("ID"),
+                    PatientID = r.Field<string>("PatientID"),
+                    Name = r.Field<string>("name"),
+                    Address = r.Field<string>("Address"),
+                    AttendentName = r.Field<string>("AttendentName"),
+                    ConsultantName = r.Field<string>("ConsultantName"),
+                    ConsultantFee = r.Field<Decimal>("ConsultantFee"),
+                    Email = r.Field<string>("Email"),
+                    Sex = r.Field<string>("Sex"),
+                    Age = r.Field<Int16>("Age"),
+                    ContactNumber1 = r.Field<string>("ContactNumber1"),
+                    ContactNumber2 = r.Field<string>("ContactNumber2"),
+                    DepartmentID = r.Field<Int16>("DepartmentID"),
+                    IsFeeFree = r.Field<Boolean>("IsFeeFree"),
+                    RefDrID = r.Field<Int16>("RefDrID"),
+                    RegDate = r.Field<DateTime>("RegDate"),
+                    Type = r.Field<Int16>("Type"),
+                    RegTime = r.Field<string>("RegTime"),
+                    Remarks = r.Field<string>("Remarks")
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private DataSet GetPatient(string TableName, string PatientID)
         {
-            String condition = PatientID == "" ? "" : " PatientID='" + PatientID + "'";
-            return du.GetTable(TableName, condition);
+            try
+            {
+                String condition = PatientID == "" ? "" : " PatientID='" + PatientID + "'";
+                return du.GetTable(TableName, condition);
+            }
+            catch (Exception Ex)
+            {
+                return null;
+            }
         }
+
         private bool AddPatient(Patient patient)
         {
 
             Basic basic = new Basic();
-            patient.ID = basic.GetMax("PatientRegstration", "ID");
-            patient.PatientID = basic.GetKey(patient.ID);
 
-            du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
+            try
+            {
+
+                patient.AddDate = DateTime.Now.Date;
+                patient.ModifiyDate = DateTime.Now.Date;
+                patient.IsDeleted = LogDetails.DeletedFalse;
+                patient.Fyear = LogDetails.CurrentFinancialYear;
+                patient.UserID = LogDetails.UserId;
+                patient.CompanyCode = LogDetails.CurrentCompanyCode;
+                
+
+                patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
+                patient.PatientID = basic.GetKey(patient.ID, 'P');
+
+                du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
                                 ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
                                 ConsultantFee ,   RegDate ,   RegTime ,   UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
                                 CompanyCode ,   Remarks ,   IsPaymentPaid ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
-           + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
-           + ", '" + patient.Type + "', " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
-           + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
-           + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
-           + "', " + patient.IsPaymentPaid + ")");
+               + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
+               + ", " + patient.Type + ", " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
+               + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
+               + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
+               + "', " + patient.IsPaymentPaid + ")");
+
+                Int32 id = basic.GetMax("Payment", "ID") + 1;
+                string paymentReceiptNo = basic.GetKey(id, 'C');
+
+                du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
+                        IsDeleted, BillNo, RegistratonNo, Remarks) 
+            values(" + id + ",'" + paymentReceiptNo + "', '" + patient.PatientID + "', '" + patient.RegDate + "', " + patient.ConsultantFee
+             + ", 'C', " + patient.UserID + ", '" + patient.AddDate + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted
+             + ", '', '" + patient.PatientID + "', 'Regsitration Fee'" + ")");
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
 
 
-            return true;
 
 
 
@@ -133,16 +180,42 @@ namespace HospitalWebAPI.Controllers
 
         private bool UpdatedPatient(Patient patient)
         {
-            du.AddRow(@"update PatientRegstration set Name= '" + patient.Name + "' where PatientID = '" + patient.PatientID + "')");
+            try
+            {
+               // patient.AddDate = DateTime.Now.Date;
+                patient.ModifiyDate = DateTime.Now.Date;
+            //    patient.IsDeleted = LogDetails.DeletedFalse;
+             //   patient.Fyear = LogDetails.CurrentFinancialYear;
+                patient.UserID = LogDetails.UserId;
+                patient.CompanyCode = LogDetails.CurrentCompanyCode;
 
-            return true;
+                du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex + 
+                    "', ContactNumber1 = '" + patient.ContactNumber1 + "', ContactNumber2 = '" + patient.ContactNumber2 + "', Email = '" + patient.Email + 
+                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + ", Type = " + patient.Type + 
+                    ", IsFeeFree = " + patient.IsFeeFree + ", ConsultantName = '" + patient.ConsultantName + "', DepartmentID = " + patient.DepartmentID + 
+                    ", RegDate = '" + patient.RegDate+ "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID + 
+                    ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "' where PatientID = '" + patient.PatientID + "'");
+
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
         }
 
         private bool UpdatedPatient(string ID)
         {
-            du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + ID + "')");
+            try
+            {
+                du.DeleteRow(@"update PatientRegstration set IsDeleted = 1 where PatientID ='" + ID + "'");
 
-            return true;
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
         }
 
         #endregion

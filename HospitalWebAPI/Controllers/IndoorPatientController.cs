@@ -7,7 +7,7 @@ using CommanUtilities;
 using System.Data;
 using System.Web.Http;
 
-namespace MvcApplication3.Controllers
+namespace HospitalWebAPI.Controllers
 {
     public class IndoorPatientController : ApiController
     {
