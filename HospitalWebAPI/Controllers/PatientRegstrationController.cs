@@ -182,11 +182,8 @@ namespace HospitalWebAPI.Controllers
         {
             try
             {
-               // patient.AddDate = DateTime.Now.Date;
                 patient.ModifiyDate = DateTime.Now.Date;
-            //    patient.IsDeleted = LogDetails.DeletedFalse;
-             //   patient.Fyear = LogDetails.CurrentFinancialYear;
-                patient.UserID = LogDetails.UserId;
+                 patient.UserID = LogDetails.UserId;
                 patient.CompanyCode = LogDetails.CurrentCompanyCode;
 
                 du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex + 
