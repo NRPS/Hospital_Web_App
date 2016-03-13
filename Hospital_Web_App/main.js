@@ -2,7 +2,7 @@
 'use strict';
 require.config({
     paths: {
-        'angular': 'bower_components/angular/angular.min',
+        'angular': "http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min",
         //'angularAMD': 'bower_components/angularAMD/angularAMD.min',
        // 'domReady': 'bower_components/domReady/domReady',
         'ngRoute': 'bower_components/angular-route/angular-route.min',

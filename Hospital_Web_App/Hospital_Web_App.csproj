@@ -244,6 +244,7 @@
     <Content Include="bower_components\domReady\LICENSE" />
     <Content Include="bower_components\domReady\package.json" />
     <Content Include="bower_components\domReady\README.md" />
+    <Content Include="Image\loading.gif" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
