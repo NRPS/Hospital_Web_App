@@ -188,10 +188,10 @@ namespace HospitalWebAPI.Controllers
 
                 du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex + 
                     "', ContactNumber1 = '" + patient.ContactNumber1 + "', ContactNumber2 = '" + patient.ContactNumber2 + "', Email = '" + patient.Email + 
-                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + "', Type = " + patient.Type + 
+                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + ", Type = " + patient.Type + 
                     ", IsFeeFree = " + patient.IsFeeFree + ", ConsultantName = '" + patient.ConsultantName + "', DepartmentID = " + patient.DepartmentID + 
-                    "', RegDate = '" + patient.Name + "', RegTime = '" + patient.Name + "', UserID = '" + patient.Name + 
-                    ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "', where PatientID = '" + patient.PatientID + "')");
+                    ", RegDate = '" + patient.RegDate+ "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID + 
+                    ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "' where PatientID = '" + patient.PatientID + "'");
 
                 return true;
             }
@@ -205,7 +205,7 @@ namespace HospitalWebAPI.Controllers
         {
             try
             {
-                du.DeleteRow(@"update PatientRegstration set DeleteFlag = 1 where PatientID ='" + ID + "')");
+                du.DeleteRow(@"update PatientRegstration set IsDeleted = 1 where PatientID ='" + ID + "'");
 
                 return true;
             }
