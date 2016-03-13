@@ -269,9 +269,9 @@ namespace CommanUtilities
 
             /*
                 CRFNo Index Key
-                I-PURCHASE;
-             *  S-SALE CASH 
-             *  H-PCR
+               
+             *  P-Patient
+             *  B-Bill
              *  C-PAYMENT/RECEIPT
              *  Q
              */
@@ -297,7 +297,6 @@ namespace CommanUtilities
                     case 'H':
                     case 'M':
                     case 'S':
-                    case 'C':
                     case 'R':
                     case 'K':
                     case 'Q':
@@ -308,7 +307,10 @@ namespace CommanUtilities
                         s = LogDetails.CurrentCompanyCode + s1 + ch + "0000".Substring(0, (5 - s.Length)) + s;
                         break;
                     case 'P':
-                        s = LogDetails.CurrentCompanyCode.Substring(1) + "P000".Substring(0, (4 - s.Length)) + s;
+                    case 'C':
+                        //s = LogDetails.CurrentCompanyCode.Substring(1) + "P000".Substring(0, (4 - s.Length)) + s;
+                        s = LogDetails.CurrentCompanyCode+ DateTime.Now.Month.ToString() + s1 + ch + "0000".Substring(0, (5 - s.Length)) + s;
+
                         break;
                     default:
                         s = LogDetails.CurrentCompanyCode + s1 + "0000".Substring(0, (5 - s.Length)) + s;

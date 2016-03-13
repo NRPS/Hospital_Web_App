@@ -5,9 +5,10 @@ using System.Web;
 
 namespace HospitalWebAPI.Models
 {
-    public class Department 
-    { 
-        public int DepartmentID { get; set; }
+	public class Department
+	{
+        public int ID { get; set; }
         public string Name { get; set; }
+        public string Remarks { get; set; }
     }
 }

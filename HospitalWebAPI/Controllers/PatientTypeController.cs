@@ -13,13 +13,9 @@ namespace HospitalWebAPI.Controllers
     public class PatientTypeController : ApiController
     {
         MSAccessDataUtility du = new MSAccessDataUtility();
-        List<PatientType> PatientTypeList = new List<PatientType>();
+        List<PatientType> PatientTypes = new List<PatientType>();
         string TableName = "PatientType";
 
-        PatientTypeController()
-        {
-            GetPatientTypeList();
-        }
 
         #region  CURD
 
@@ -27,13 +23,16 @@ namespace HospitalWebAPI.Controllers
         // GET: api/PatientType
         public IEnumerable<PatientType> Get()
         {
-            return PatientTypeList;
+            GetPatientTypeList(GetPatientType(TableName, 0));
+            return PatientTypes;
         }
 
         // GET: api/PatientType/5
         public IHttpActionResult Get(int id)
         {
-            var PatientType = PatientTypeList.Where(x => x.ID == id).FirstOrDefault();
+            GetPatientTypeList(GetPatientType(TableName, id));
+
+            var PatientType = PatientTypes.Where(x => x.ID == id).FirstOrDefault();
 
             if (PatientType == null)
                 return NotFound();
@@ -44,7 +43,7 @@ namespace HospitalWebAPI.Controllers
         // POST: api/PatientType
         public IHttpActionResult Post([FromBody]PatientType PatientType)
         {
-            if (AddRefBy(PatientType) == true)
+            if (AddPatientType(PatientType) == true)
                 return Ok();
             else
                 return BadRequest();
@@ -66,23 +65,49 @@ namespace HospitalWebAPI.Controllers
 
         #region Priavte
 
-        private void GetPatientTypeList()
+        private void GetPatientTypeList(DataSet PatientsDS)
         {
-
-
-            PatientTypeList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
-            new PatientType
+            try
             {
-                Type = r.Field<string>("Type"),
-                Remarks = r.Field<string>("Remark"),
-                ID = r.Field<Int16>("ID")
-            }).ToList();
+                PatientTypes = PatientsDS.Tables[0].AsEnumerable().Select(r =>
+                new PatientType
+                {
+                    Type = r.Field<string>("Type"),
+                    Remarks = r.Field<string>("Remark"),
+                    ID = r.Field<Int16>("ID")
+                }).ToList();
+            }
+            catch (Exception Ex)
+            {
+
+            }
         }
 
-        private bool AddRefBy(PatientType PatientType)
+
+        private DataSet GetPatientType(string TableName, int TypeID)
         {
-            return du.AddRow(@"insert into PatientType(  ID ,    Type ,   Remark)
+            try
+            {
+                String condition = TypeID <= 0 ? "" : " ID = " + TypeID;
+                return du.GetTable(TableName, condition);
+            }
+            catch (Exception Ex)
+            {
+                return null;
+            }
+        }
+
+        private bool AddPatientType(PatientType PatientType)
+        {
+            try
+            {
+                return du.AddRow(@"insert into PatientType(  ID ,    Type ,   Remark)
             values(" + PatientType.ID + ", '" + PatientType.Type + "', '" + PatientType.Remarks + "')");
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
         }
 
         #endregion
