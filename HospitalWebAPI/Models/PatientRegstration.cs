@@ -5,9 +5,9 @@ using System.Web;
 
 namespace HospitalWebAPI.Models
 {
-    public class Patient
+    public class Patient : CommanProperties
     {
-        public int ID { get; set; }
+      
         public string PatientID { get; set; }
         public string Name { get; set; }
         public string AttendentName { get; set; }
@@ -26,12 +26,6 @@ namespace HospitalWebAPI.Models
         public decimal ConsultantFee { get; set; }
         public DateTime RegDate { get; set; }
         public string RegTime { get; set; }
-        public int UserID { get; set; }
-        public DateTime AddDate { get; set; }
-        public DateTime ModifiyDate { get; set; }
-        public int IsDeleted { get; set; }
-        public int Fyear { get; set; }
-        public string CompanyCode { get; set; }
         public string Remarks { get; set; }
         public bool IsPaymentPaid { get; set; }
     }

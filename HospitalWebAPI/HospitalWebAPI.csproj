@@ -128,17 +128,6 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="PatientRegistration.xsc">
-      <DependentUpon>PatientRegistration.xsd</DependentUpon>
-    </Content>
-    <None Include="PatientRegistration.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PatientRegistration.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="PatientRegistration.xss">
-      <DependentUpon>PatientRegistration.xsd</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -155,6 +144,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BalanceAmountController.cs" />
+    <Compile Include="Controllers\ChargeController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\IndoorPatientController.cs" />
     <Compile Include="Controllers\IndoorPatientDetailsController.cs" />
@@ -170,11 +161,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Charges.cs" />
+    <Compile Include="Models\CommanProperties.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\IndoorPatient.cs" />
     <Compile Include="Models\IndoorPatientDetails.cs" />
     <Compile Include="Models\Medicine.cs" />
     <Compile Include="Models\MedicineCompany.cs" />
+    <Compile Include="Models\PatientBalanceAmount.cs" />
     <Compile Include="Models\PatientBill.cs" />
     <Compile Include="Models\PatientBillDetails.cs" />
     <Compile Include="Models\PatientRegstration.cs" />
@@ -183,21 +176,12 @@
     <Compile Include="Models\PaymentModeDetails.cs" />
     <Compile Include="Models\ReferedBy.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="PatientRegistration.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PatientRegistration.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\web.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -209,13 +193,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\Payment\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CommanUtilities\CommanUtilities.csproj">
       <Project>{cb5a53ab-e434-4aeb-80c0-4066e40a6fcb}</Project>

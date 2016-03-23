@@ -16,6 +16,8 @@ namespace HospitalWebAPI.Controllers
         List<Payment> Payments = new List<Payment>();
         string TableName = "Payment";
 
+        PaymentController()
+        { }
         #region  CURD
 
 
@@ -78,8 +80,8 @@ namespace HospitalWebAPI.Controllers
                     BillNo = r.Field<string>("BillNo"),
                     PaymentDate = r.Field<DateTime>("PaymentDate"),
                     PaymentMode = r.Field<string>("PaymentMode"),
-                    RegistratonNo = r.Field<string>(""),
-                    Remarks = r.Field<string>("Remark"),
+                    RegistratonNo = r.Field<string>("RegistratonNo"),
+                    Remarks = r.Field<string>("Remarks"),
                 }).ToList();
             }
             catch (Exception Ex)
@@ -93,7 +95,7 @@ namespace HospitalWebAPI.Controllers
         {
             try
             {
-                String condition = paymentReceiptNo == "" ? "" : " paymentReceiptNo = " + paymentReceiptNo;
+                String condition = paymentReceiptNo == "" ? "" : " paymentReceiptNo = '" + paymentReceiptNo + "'";
                 return du.GetTable(TableName, condition);
             }
             catch (Exception Ex)
@@ -109,6 +111,38 @@ namespace HospitalWebAPI.Controllers
 
                 Basic basic = new Basic();
 
+
+                Int32 id = basic.GetMax("Payment", "ID") + 1;
+                string paymentReceiptNo = basic.GetKey(id, 'C');
+
+                du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
+                        IsDeleted, BillNo, RegistratonNo, Remarks) 
+            values(" + id + ",'" + paymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
+             + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.IsDeleted
+             + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");
+
+                return true;
+            }
+
+            catch (Exception Ex)
+            {
+                return false;
+            }
+        }
+
+        private bool UpdatePayment(Payment payment)
+        {
+            try
+            {
+                
+                Basic basic = new Basic();
+
+                payment.AddDate = DateTime.Now.Date;
+                payment.ModifiyDate = DateTime.Now.Date;
+                payment.IsDeleted = LogDetails.DeletedFalse;
+                payment.Fyear = LogDetails.CurrentFinancialYear;
+                payment.UserID = LogDetails.UserId;
+                payment.CompanyCode = LogDetails.CurrentCompanyCode;
 
                 Int32 id = basic.GetMax("Payment", "ID") + 1;
                 string paymentReceiptNo = basic.GetKey(id, 'C');

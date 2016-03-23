@@ -134,7 +134,7 @@ namespace HospitalWebAPI.Controllers
 
             try
             {
-
+                
                 patient.AddDate = DateTime.Now.Date;
                 patient.ModifiyDate = DateTime.Now.Date;
                 patient.IsDeleted = LogDetails.DeletedFalse;
@@ -144,18 +144,18 @@ namespace HospitalWebAPI.Controllers
                 
 
                 patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
-                patient.PatientID = basic.GetKey(patient.ID, 'P');
+                patient.PatientID = basic.GetKey(patient.ID, 'P',false,true,true);
 
                 du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
                                 ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
                                 ConsultantFee ,   RegDate ,   RegTime ,   UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
-                                CompanyCode ,   Remarks ,   IsPaymentPaid ) 
+                                CompanyCode ,   Remarks ,   IsPaymentPaid,Age ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
                + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
                + ", " + patient.Type + ", " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
                + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
                + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
-               + "', " + patient.IsPaymentPaid + ")");
+               + "', " + patient.IsPaymentPaid + ", " + patient.Age + ")");
 
                 Int32 id = basic.GetMax("Payment", "ID") + 1;
                 string paymentReceiptNo = basic.GetKey(id, 'C');

@@ -36,7 +36,8 @@ namespace HospitalWebAPI.Controllers
 
             var PatientBill = PatientBills.Where(x => x.BillNo == id).FirstOrDefault();
 
-            PatientBill.BillDetails = PatientBillDetails.Where(x => x.BillNo == id).ToList();
+            if (PatientBillDetails.Count > 0)
+                PatientBill.BillDetails = PatientBillDetails.Where(x => x.BillNo == id).ToList();
 
             if (PatientBill == null)
                 return NotFound();
@@ -51,7 +52,7 @@ namespace HospitalWebAPI.Controllers
                 return Ok();
             else
                 return BadRequest();
-        } 
+        }
 
         // PUT: api/PatientBill/5
         public void Put(int id, [FromBody]string value)
@@ -78,24 +79,24 @@ namespace HospitalWebAPI.Controllers
                 PatientBills = PatientBillDS.Tables[0].AsEnumerable().Select(r =>
                 new PatientBill
                 {
+                    ID = r.Field<Int32>("ID"),
                     BillNo = r.Field<string>("BillNo"),
                     BillDate = r.Field<DateTime>("BillDate"),
                     PatientID = r.Field<string>("PatientID"),
-                    Remarks = r.Field<string>("Remarks"),
-                    ID = r.Field<Int32>("ID")
+                    Remarks = r.Field<string>("Remarks")
+
                 }).ToList();
 
                 PatientBillDetails = PatientBillDS.Tables[1].AsEnumerable().Select(r =>
                 new PatientBillDetails
                 {
-                    ID = r.Field<Int16>("ID"),
+                    BillID = r.Field<Int16>("BillID"),
                     BillNo = r.Field<string>("BillNo"),
                     Amount = r.Field<decimal>("Amount"),
                     Discount = r.Field<decimal>("Discount"),
                     Rate = r.Field<decimal>("Rate"),
                     Quantity = r.Field<Int16>("Quantity"),
                     NetAmount = r.Field<decimal>("NetAmount"),
-                    PatientBillDetailID = r.Field<Int16>("PatientBillDetailID"),
                     FromDate = r.Field<DateTime>("FromDate"),
                     ToDate = r.Field<DateTime>("ToDate")
 
@@ -137,20 +138,56 @@ namespace HospitalWebAPI.Controllers
 
         private bool AddPatientBill(PatientBill patientBill)
         {
-            return du.AddRow(@"insert into PatientBill(BillNo,PatientID ,BillDate, UserID ,AddDate ,ModifiyDate,IsDeleted, Remarks)
-            values(" + patientBill.BillNo + ",'" + patientBill.PatientID + "', '" + patientBill.BillDate + "', " + patientBill.UserID + ", '" + patientBill.AddDate
-            + "', '" + patientBill.ModifiyDate + "', " + patientBill.IsDeleted + ",  '" + patientBill.Remarks
-            + "')");
+            Basic basic = new Basic();
+
+            try
+            {
+                Int32 id = basic.GetMax("PatientBill", "ID") + 1;
+                string billNo = basic.GetKey(id, 'B');
+
+
+                patientBill.AddDate = DateTime.Now.Date;
+                patientBill.ModifiyDate = DateTime.Now.Date;
+                patientBill.IsDeleted = LogDetails.DeletedFalse;
+                patientBill.Fyear = LogDetails.CurrentFinancialYear;
+                patientBill.UserID = LogDetails.UserId;
+                patientBill.CompanyCode = LogDetails.CurrentCompanyCode;
+
+
+                du.AddRow(@"insert into PatientBill(ID,BillNo,PatientID ,BillDate, Remarks, UserID, CompanyCode, Fyear ,AddDate ,ModifiyDate,IsDeleted)
+                values(" + id + ",'" + billNo + "','" + patientBill.PatientID + "', '" + patientBill.BillDate + "', " + ",  '" + patientBill.Remarks + "' ,"
+                + patientBill.UserID + ", '" + patientBill.CompanyCode + "', " + patientBill.Fyear + ", '" + patientBill.AddDate + "', '"
+                + patientBill.ModifiyDate + "', " + patientBill.IsDeleted + ")");
+
+                Int32 billID = basic.GetMax("PatientBillDetails", "BillID"," billno = '" + billNo + "'" ) + 1;
+
+                PatientBillDetails patientBillDetails = new PatientBillDetails();
+
+                patientBillDetails = patientBill.BillDetails[0];
+
+                du.AddRow(@"insert into PatientBillDetails(BillID,BillNo,Amount ,Discount, Remarks, Rate, Quantity, NetAmount ,FromDate ,ToDate)
+                values(" + billID + ",'" + patientBill.BillNo + "'," + patientBillDetails.Amount + ", " + patientBillDetails.Discount + ", '"
+                + patientBillDetails.Remarks + "', " + patientBillDetails.Rate + "," + patientBillDetails.Quantity + "," + patientBillDetails.NetAmount + ",'"
+                + patientBillDetails.FromDate + ", " + patientBillDetails.ToDate + "')");
+
+                return true;
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
+
         }
 
         private bool UpdatePatientBill(PatientBill patientBill)
         {
-            return du.AddRow(@"update PatientBill set PatientID = " + patientBill.PatientID + ",BillDate = " + patientBill.BillDate + ",UserID = " + patientBill.UserID + ",ModifiyDate = " + patientBill.ModifiyDate + ",Remarks = " + patientBill.Remarks + ")");
+            return du.AddRow(@"update PatientBill set PatientID = '" + patientBill.PatientID + "', BillDate = '" + patientBill.BillDate + "', Remarks = '" + patientBill.Remarks
+                + "', UserID = " + patientBill.UserID + ",ModifiyDate = '" + patientBill.ModifiyDate + "'");
         }
 
         private bool DeletePatientBill(PatientBill patientBill)
         {
-            return du.DeleteRow(@"update PatientBill set DeleteFlag = 1 where BillNo ='" + patientBill.BillNo + "')");
+            return du.DeleteRow(@"update PatientBill set IsDeleted = 1 where BillNo ='" + patientBill.BillNo + "')");
         }
 
     }

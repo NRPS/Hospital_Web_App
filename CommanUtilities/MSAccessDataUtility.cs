@@ -64,6 +64,15 @@ namespace CommanUtilities
             var temp=  command.ExecuteScalar();
            return Convert.IsDBNull(temp)? 0:Convert.ToInt32(temp);
         }
+
+        public decimal GetScalarValueDecimal(String Query)
+        {
+            // int _MaxVal = 0;
+            command.CommandText = Query;
+            var temp = command.ExecuteScalar();
+            return Convert.IsDBNull(temp) ? 0 : Convert.ToDecimal(temp);
+        }
+
         public DataSet GetTable(string TableName)
         {
             return GetTable(TableName,"");
@@ -76,22 +85,28 @@ namespace CommanUtilities
             DataTable dt = new DataTable();
             OleDbDataAdapter adapter = new OleDbDataAdapter(command);
             adapter.Fill(dt);
-
-           // DataSet ds = new DataSet();
-           // ds.Tables.Add(dt);
-
-           // dt.Dispose();
-            return dt;
+             return dt;
         }
 
         public DataSet GetTable(string TableName, string Condition)
         {
             String condition = Condition == "" ? "" : "  where " + Condition;
-            command.CommandText = @"select * from " + TableName + condition;
+            String Query = @"select * from " + TableName + condition;
+            return GetQueryExecute(Query);
+        }
+
+        public DataSet GetTableByQuery(string Query)
+        {
+            return GetQueryExecute(Query);
+        }
+
+        private DataSet GetQueryExecute(String Query)
+        {
+            command.CommandText = Query;
             DataTable dt = new DataTable();
             OleDbDataAdapter adapter = new OleDbDataAdapter(command);
             adapter.Fill(dt);
-            
+
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
 
