@@ -7,7 +7,7 @@ namespace HospitalWebAPI.Models
 {
     public class ReferedBy 
     { 
-        public int RefID { get; set; } 
+        public int ID { get; set; } 
         public string Name { get; set; }
         public string ContactNumber { get; set; } 
     }

@@ -16,6 +16,10 @@ namespace HospitalWebAPI.Controllers
         List<PatientBill> PatientBills = new List<PatientBill>();
         List<PatientBillDetails> PatientBillDetails = new List<PatientBillDetails>();
 
+        PaymentLocal paymentLocal = new PaymentLocal();
+        Payment payment;
+
+
         string TableName = "PatientBill";
         string TableName1 = "PatientBillDetails";
 
@@ -83,8 +87,9 @@ namespace HospitalWebAPI.Controllers
                     BillNo = r.Field<string>("BillNo"),
                     BillDate = r.Field<DateTime>("BillDate"),
                     PatientID = r.Field<string>("PatientID"),
+                    BillTotal = r.Field<decimal>("BillTotal"),
+                    AmountPaid = r.Field<decimal>("AmountPaid"),
                     Remarks = r.Field<string>("Remarks")
-
                 }).ToList();
 
                 PatientBillDetails = PatientBillDS.Tables[1].AsEnumerable().Select(r =>
@@ -142,8 +147,8 @@ namespace HospitalWebAPI.Controllers
 
             try
             {
-                Int32 id = basic.GetMax("PatientBill", "ID") + 1;
-                string billNo = basic.GetKey(id, 'B');
+                // Int32 id = basic.GetMax("PatientBill", "ID") + 1;
+                //  string billNo = basic.GetKey(id, 'B');
 
 
                 patientBill.AddDate = DateTime.Now.Date;
@@ -154,12 +159,12 @@ namespace HospitalWebAPI.Controllers
                 patientBill.CompanyCode = LogDetails.CurrentCompanyCode;
 
 
-                du.AddRow(@"insert into PatientBill(ID,BillNo,PatientID ,BillDate, Remarks, UserID, CompanyCode, Fyear ,AddDate ,ModifiyDate,IsDeleted)
-                values(" + id + ",'" + billNo + "','" + patientBill.PatientID + "', '" + patientBill.BillDate + "', " + ",  '" + patientBill.Remarks + "' ,"
-                + patientBill.UserID + ", '" + patientBill.CompanyCode + "', " + patientBill.Fyear + ", '" + patientBill.AddDate + "', '"
+                du.AddRow(@"insert into PatientBill(ID,BillNo,PatientID ,BillDate, BillTotal, AmountPaid,PaymentMode, Remarks, UserID, CompanyCode, Fyear ,AddDate ,ModifiyDate,IsDeleted)
+                values(" + patientBill.ID + ",'" + patientBill.BillNo + "','" + patientBill.PatientID + "', '" + patientBill.BillDate + "', " + patientBill.BillTotal
+                + "," + patientBill.AmountPaid + ",'" + patientBill.PaymentMode + "','" + patientBill.Remarks + "' ," + patientBill.UserID + ", '" + patientBill.CompanyCode + "', " + patientBill.Fyear + ", '" + patientBill.AddDate + "', '"
                 + patientBill.ModifiyDate + "', " + patientBill.IsDeleted + ")");
 
-                Int32 billID = basic.GetMax("PatientBillDetails", "BillID"," billno = '" + billNo + "'" ) + 1;
+                Int32 billID = basic.GetMax("PatientBillDetails", "BillID", " billno = '" + patientBill.BillNo + "'") + 1;
 
                 PatientBillDetails patientBillDetails = new PatientBillDetails();
 
@@ -169,6 +174,17 @@ namespace HospitalWebAPI.Controllers
                 values(" + billID + ",'" + patientBill.BillNo + "'," + patientBillDetails.Amount + ", " + patientBillDetails.Discount + ", '"
                 + patientBillDetails.Remarks + "', " + patientBillDetails.Rate + "," + patientBillDetails.Quantity + "," + patientBillDetails.NetAmount + ",'"
                 + patientBillDetails.FromDate + ", " + patientBillDetails.ToDate + "')");
+
+                payment = new Payment();
+
+                payment.BillNo = patientBill.BillNo;
+                payment.PatientID = patientBill.PatientID;
+                payment.Amount = patientBill.AmountPaid;
+                payment.Remarks = patientBill.Remarks;
+                payment.PaymentDate = patientBill.BillDate;
+                payment.PaymentMode = patientBill.PaymentMode;
+
+                paymentLocal.AddPayment(payment);
 
                 return true;
             }
@@ -181,13 +197,48 @@ namespace HospitalWebAPI.Controllers
 
         private bool UpdatePatientBill(PatientBill patientBill)
         {
-            return du.AddRow(@"update PatientBill set PatientID = '" + patientBill.PatientID + "', BillDate = '" + patientBill.BillDate + "', Remarks = '" + patientBill.Remarks
-                + "', UserID = " + patientBill.UserID + ",ModifiyDate = '" + patientBill.ModifiyDate + "'");
+            du.AddRow(@"update PatientBill set BillTotal = " + patientBill.BillTotal + ",  AmountPaid = " + patientBill.AmountPaid + ", BillDate = '"
+               + patientBill.BillDate + "', PaymentMode = '" + patientBill.PaymentMode + "', Remarks = '" + patientBill.Remarks + "', UserID = "
+               + patientBill.UserID + ", ModifiyDate = '" + patientBill.ModifiyDate + "' where BillNo='" + patientBill.BillNo + "'");
+
+
+            PatientBillDetails patientBillDetails = new PatientBillDetails();
+
+            patientBillDetails = patientBill.BillDetails[0];
+
+            du.AddRow(@"update PatientBillDetails set Amount = " + patientBillDetails.Amount + ", Discount=" + patientBillDetails.Discount + ", Remarks='" 
+                + patientBillDetails.Remarks + "', Rate= " + patientBillDetails.Rate + ", Quantity = " + patientBillDetails.Quantity + ", NetAmount =" 
+                + patientBillDetails.NetAmount + ", FromDate ='" + patientBillDetails.FromDate + "', ToDate = '" + patientBillDetails.ToDate + "' where BillNo='"
+                + patientBill.BillNo + "' and BillID=" + patientBillDetails.BillID);
+
+            payment = new Payment();
+
+
+            string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where BillNo ='" + patientBill.BillNo + "'");
+
+            payment.PaymentReceiptNo = paymentReceiptNo;
+            payment.BillNo = patientBill.BillNo;
+            payment.PatientID = patientBill.PatientID;
+            payment.Amount = patientBill.AmountPaid;
+            payment.Remarks = patientBill.Remarks;
+            payment.PaymentDate = patientBill.BillDate;
+            payment.PaymentMode = patientBill.PaymentMode;
+
+            paymentLocal.UpdatePayment(payment);
+
+            return true;
+
         }
 
         private bool DeletePatientBill(PatientBill patientBill)
         {
-            return du.DeleteRow(@"update PatientBill set IsDeleted = 1 where BillNo ='" + patientBill.BillNo + "')");
+            string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where BillNo ='" + patientBill.BillNo + "'");
+
+            du.DeleteRow(@"update PatientBill set IsDeleted = 1 where BillNo ='" + patientBill.BillNo + "')");
+
+            paymentLocal.DeletePayment(paymentReceiptNo);
+
+            return true;
         }
 
     }

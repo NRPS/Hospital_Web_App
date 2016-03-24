@@ -14,7 +14,7 @@ namespace HospitalWebAPI.Controllers
 
     {
         MSAccessDataUtility du = new MSAccessDataUtility();
-        List<Department> DepartmentList = new List<Department>();
+        List<Department> departmentList = new List<Department>();
         string TableName = "Department";
 
         DepartmentController()
@@ -28,13 +28,13 @@ namespace HospitalWebAPI.Controllers
         // GET: api/Department
         public IEnumerable<Department> Get()
         {
-            return DepartmentList;
+            return departmentList;
         }
 
         // GET: api/Department/5
         public IHttpActionResult Get(int id)
         {
-            var Department = DepartmentList.Where(x => x.ID == id).FirstOrDefault();
+            var Department = departmentList.Where(x => x.ID == id).FirstOrDefault();
 
             if (Department == null)
                 return NotFound();
@@ -71,7 +71,7 @@ namespace HospitalWebAPI.Controllers
         {
 
 
-            DepartmentList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
+            departmentList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
             new Department
             {
                 Name = r.Field<string>("Name"),
@@ -80,10 +80,14 @@ namespace HospitalWebAPI.Controllers
             }).ToList();
         }
 
-        private bool AddRefBy(Department Department)
+        private bool AddRefBy(Department department)
         {
-            return du.AddRow(@"insert into Department(  ID ,    Type ,   Remarks)
-            values(" + Department.ID + ", '" + Department.Name + "', '" + Department.Remarks + "')");
+            Basic basic = new Basic();
+
+            department.ID = basic.GetMax("Department", "ID") + 1;
+
+            return du.AddRow(@"insert into Department(  ID ,    Name ,   Remarks)
+            values(" + department.ID + ", '" + department.Name + "', '" + department.Remarks + "')");
         }
 
         #endregion

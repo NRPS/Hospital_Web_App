@@ -73,6 +73,14 @@ namespace CommanUtilities
             return Convert.IsDBNull(temp) ? 0 : Convert.ToDecimal(temp);
         }
 
+        public string GetScalarValueString(String Query)
+        {
+            // int _MaxVal = 0;
+            command.CommandText = Query;
+            var temp = command.ExecuteScalar();
+            return Convert.IsDBNull(temp) ? "" : temp.ToString();
+        }
+
         public DataSet GetTable(string TableName)
         {
             return GetTable(TableName,"");

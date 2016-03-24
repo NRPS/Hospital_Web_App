@@ -42,23 +42,36 @@ namespace HospitalWebAPI.Controllers
         }
 
         // POST: api/Payment
-        public IHttpActionResult Post([FromBody]Payment Payment)
+        public IHttpActionResult Post([FromBody]Payment payment)
         {
-            if (AddPayment(Payment) == true)
+            PaymentLocal paymentLocal = new PaymentLocal();
+
+            if (paymentLocal.AddPayment(payment) == true)
                 return Ok();
             else
                 return BadRequest();
         }
 
         // PUT: api/Payment/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Payment payment)
         {
+            PaymentLocal paymentLocal = new PaymentLocal();
 
+            if (paymentLocal.UpdatePayment(payment) == true)
+                return Ok();
+            else
+                return BadRequest();
         }
 
         // DELETE: api/Payment/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(string id)
         {
+            PaymentLocal paymentLocal = new PaymentLocal();
+
+            if (paymentLocal.DeletePayment(id) == true)
+                return Ok();
+            else
+                return BadRequest();
 
         }
 
@@ -103,66 +116,75 @@ namespace HospitalWebAPI.Controllers
                 return null;
             }
         }
+    }
+    #endregion
 
-        private bool AddPayment(Payment payment)
+}
+
+
+public class PaymentLocal
+{
+    MSAccessDataUtility du = new MSAccessDataUtility();
+
+    public bool AddPayment(Payment payment)
+    {
+        try
         {
-            try
-            {
 
+            if (payment.ID <= 0)
+            {
                 Basic basic = new Basic();
+                payment.ID = basic.GetMax("Payment", "ID") + 1;
+                payment.RegistratonNo = basic.GetKey(payment.ID, 'C', true, true);
+            }
 
-
-                Int32 id = basic.GetMax("Payment", "ID") + 1;
-                string paymentReceiptNo = basic.GetKey(id, 'C');
-
-                du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
+          return  du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
                         IsDeleted, BillNo, RegistratonNo, Remarks) 
-            values(" + id + ",'" + paymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
-             + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.IsDeleted
-             + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");
+            values(" + payment.ID + ",'" + payment.PaymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
+         + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.IsDeleted
+         + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");
 
-                return true;
-            }
-
-            catch (Exception Ex)
-            {
-                return false;
-            }
         }
 
-        private bool UpdatePayment(Payment payment)
+        catch (Exception Ex)
         {
-            try
-            {
-                
-                Basic basic = new Basic();
+            return false;
+        }
+    }
+    public bool UpdatePayment(Payment payment)
+    {
+        try
+        {
 
-                payment.AddDate = DateTime.Now.Date;
-                payment.ModifiyDate = DateTime.Now.Date;
-                payment.IsDeleted = LogDetails.DeletedFalse;
-                payment.Fyear = LogDetails.CurrentFinancialYear;
-                payment.UserID = LogDetails.UserId;
-                payment.CompanyCode = LogDetails.CurrentCompanyCode;
+            payment.ModifiyDate = DateTime.Now.Date;
+            payment.UserID = LogDetails.UserId;
 
-                Int32 id = basic.GetMax("Payment", "ID") + 1;
-                string paymentReceiptNo = basic.GetKey(id, 'C');
 
-                du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
-                        IsDeleted, BillNo, RegistratonNo, Remarks) 
-            values(" + id + ",'" + paymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
-             + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.IsDeleted
-             + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");
+           return du.AddRow(@"update Payment set PaymentDate = '" + payment.PaymentDate + "', Amount = " + payment.Amount + ", PaymentMode = '" + payment.PaymentMode
+                + "', UserID = " + payment.UserID + ", ModifiyDate= '" + payment.ModifiyDate + "', BillNo = '" + payment.BillNo + "', RegistratonNo='"
+                + payment.PatientID + "', Remarks = '" + payment.Remarks + "' where PaymentReceiptNo = '" + payment.PaymentReceiptNo + "'");
 
-                return true;
-            }
-
-            catch (Exception Ex)
-            {
-                return false;
-            }
         }
 
-        #endregion
+        catch (Exception Ex)
+        {
+            return false;
+        }
+    }
+
+    public bool DeletePayment(String paymentReceiptNo)
+    {
+        try
+        {
+
+           return du.AddRow(@"update Payment set  UserID = " + LogDetails.UserId + ", ModifiyDate= '" + DateTime.Now.Date
+                + "',  IsDeleted = 1 where PaymentReceiptNo = '" + paymentReceiptNo + "'");
+
+        }
+        catch (Exception Ex)
+        {
+            return false;
+        }
 
     }
 }

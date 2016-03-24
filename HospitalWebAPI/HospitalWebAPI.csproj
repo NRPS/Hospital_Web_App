@@ -149,10 +149,10 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\IndoorPatientController.cs" />
     <Compile Include="Controllers\IndoorPatientDetailsController.cs" />
+    <Compile Include="Controllers\KeyValueController.cs" />
     <Compile Include="Controllers\MedicineCompanyController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\PatientBillController.cs" />
-    <Compile Include="Controllers\PatientBillDetailsController.cs" />
     <Compile Include="Controllers\PatientRegstrationController.cs" />
     <Compile Include="Controllers\PatientTypeController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -160,6 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\Charges.cs" />
     <Compile Include="Models\CommanProperties.cs" />
     <Compile Include="Models\Department.cs" />

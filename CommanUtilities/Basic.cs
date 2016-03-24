@@ -32,8 +32,6 @@ namespace CommanUtilities
             return "From " + _FromDate.ToShortDateString() + " To " + _ToDate.ToShortDateString();
         }
 
-
-
         #region Key Coding
         public int GetMax(String TableName, String FieldName)
         {
@@ -44,7 +42,6 @@ namespace CommanUtilities
         {
             return GetMax(TableName, FieldName, WhereCondition, false);
         }
-
         public int GetMax(String TableName, String FieldName, bool isCompanyCondition)
         {
             return GetMax(TableName, FieldName, "", isCompanyCondition);
@@ -82,28 +79,33 @@ namespace CommanUtilities
         }
 
 
+        public String GetKey(int Srno, Char Prefix = '~', bool isYearPrefix = false, bool isMonthPrefix = false)
+        {
+            return GetKey(Srno, Prefix, false, isYearPrefix, isMonthPrefix);
+        }
         public String GetKey(int Srno, Char Prefix = '~', bool isCompanyCodePrefix = false, bool isYearPrefix = false, bool isMonthPrefix = false, int Length = 6)
         {
             /*
-           CRFNo Index Key
+                * P-Patient  1603P00001
+                * B - Bill 1603B00001
+                * C - PAYMENT / RECEIPT 1603C000001
+           */
 
-        * P-Patient
-       * B - Bill
-       * C - PAYMENT / RECEIPT
-       * Q
-       */
             String s = "";
             if (isCompanyCodePrefix)
                 s = LogDetails.CurrentCompanyCode;
             if (isYearPrefix)
-                s = s + LogDetails.CurrentFinancialYear.ToString().Substring(2, 2);
+                s = s + DateTime.Now.Date.Year.ToString().Substring(2, 2);
             if (isMonthPrefix)
-                s = s + DateTime.Now.Date.Month.ToString("##");
+            {
+                string s2 = ("00" + DateTime.Now.Date.Month.ToString());
+                s = s + s2.Substring(s2.Length-2);
+            }
             if (Prefix != '~' && Prefix != ' ')
                 s = s + Prefix;
             if (Length > 0)
             {
-                string s1 = "0000000000".Substring(0, (Length - Srno.ToString().Length)) ;
+                string s1 = "0000000000".Substring(0, (Length - Srno.ToString().Length));
                 s = s + s1 + Srno.ToString();
             }
             else
@@ -112,127 +114,19 @@ namespace CommanUtilities
             }
             return s;
         }
-        //public String GetKey(int Srno, Char Prefix, String Pad)
-        //{
-        //    String s = "";
-        //    try
-        //    {
-        //        s = Srno.ToString();
-        //        if (Prefix == '~')
-        //            s = Pad.Substring(0, (Pad.Length - s.Length)) + s;
-        //        else
-        //            s = Prefix + Pad.Substring(0, (Pad.Length - s.Length)) + s;
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        // MessageBox.Show(Ex.Message);
-        //        return s;
-        //    }
-        //    return s;
-        //}
-
-        //public String GetKey(int Srno)
-        //{
-        //    return GetKey(Srno, '~');
-        //}
-
-        //public String GetKey(int Srno, Char ch)
-        //{
-        //    //FOR ALL VOUCHER CRFNO WILL CONTINUE AS FINANCIAL YEAR
-
-
-        //    String s, s1;
-        //    s = ""; s1 = "";
-        //    //  LogDetails logdetails = new LogDetails();
-        //    try
-        //    {
-        //        s = Srno.ToString();
-        //        s1 = LogDetails.CurrentFinancialYear.ToString();
-        //        s = LogDetails.CurrentCompanyCode + LogDetails.CurrentDivID + s1 + "0000".Substring(0, (5 - s.Length)) + s;
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        // MessageBox.Show(Ex.Message);
-        //        return s;
-        //    }
-        //    return s;
-
-
-        //    //    Sale, Purchasse, Process, Ready Stock 
-        //    //    CRFNO (15#)  = CompanyID (3#) + DivID (3#) + Fyear(4#)+Srno(5#)
-
-
-        //    //    Ledger, Group
-        //    //    CRFNO(12#)  = CompanyID (3#), Fyear (4#), Srno (5#)
-
-
-
-        //    //
-        //    /* L-Ledger
-        //     * G-Group
-        //     * P-Party
-        //     */
-
-        //    String s, s1;
-        //    s = ""; s1 = "";
-        //    // LogDetails logdetails = new LogDetails();
-        //    try
-        //    {
-        //        s = Srno.ToString();
-        //        s1 = LogDetails.CurrentFinancialYear.ToString();
-        //        switch (ch)
-        //        {
-        //            case 'G':
-        //            case 'L':
-        //            case 'I':
-        //            case 'H':
-        //            case 'M':
-        //            case 'S':
-        //            case 'R':
-        //            case 'K':
-        //            case 'Q':
-        //            case 'E':
-        //            case 'T':
-        //            case 'A':
-        //            case 'B':
-        //                s = LogDetails.CurrentCompanyCode + s1 + ch + "0000".Substring(0, (5 - s.Length)) + s;
-        //                break;
-        //            case 'P':
-        //            case 'C':
-        //                //s = LogDetails.CurrentCompanyCode.Substring(1) + "P000".Substring(0, (4 - s.Length)) + s;
-        //                s = LogDetails.CurrentCompanyCode + DateTime.Now.Month.ToString() + s1 + ch + "0000".Substring(0, (5 - s.Length)) + s;
-
-        //                break;
-        //            default:
-        //                s = LogDetails.CurrentCompanyCode + s1 + "0000".Substring(0, (5 - s.Length)) + s;
-        //                break;
-        //        }
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //        // MessageBox.Show(Ex.Message);
-        //        return s;
-        //    }
-        //    return s;
-
-        //}
         #endregion
-
-
     }
 
     public static class LogDetails
     {
-
-        public static String CurrentCompanyCode = "C01"; //Program.CurrentCompanyCode;
+        public static String CurrentCompanyCode = "11"; //Program.CurrentCompanyCode;
         public static int CurrentFinancialYear = 2016; //Program.CurrentFinancialYear;
-        public static String CurrentDivID = "D01";     // Program.CurrentDivID;
+        public static String CurrentDivID = "11";     // Program.CurrentDivID;
         public static int UserId = 1; // Program.UserId;
         public static int DeletedTrue = 1;
         public static int DeletedFalse = 0;
         public static DateTime FromDate = DateTime.Now.Date;// Program.FromDate;
         public static DateTime ToDate = DateTime.Now.AddDays(90);// Program.ToDate;
-
 
     }
 

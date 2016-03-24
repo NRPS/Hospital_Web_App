@@ -16,10 +16,11 @@ namespace HospitalWebAPI.Controllers
 
     public class PatientRegstrationController : ApiController
     {
-
         MSAccessDataUtility du = new MSAccessDataUtility();
         List<Patient> Patients = new List<Patient>();
         string TableName = "PatientRegstration";
+        PaymentLocal paymentLocal = new PaymentLocal();
+        Payment payment;
 
         PatientRegstrationController()
         {
@@ -45,7 +46,7 @@ namespace HospitalWebAPI.Controllers
         }
         public IHttpActionResult Delete(string ID)
         {
-            if (UpdatedPatient(ID) == true)
+            if (DeletePatient(ID) == true)
                 return Ok();
             else
                 return BadRequest();
@@ -134,48 +135,47 @@ namespace HospitalWebAPI.Controllers
 
             try
             {
-                
+
                 patient.AddDate = DateTime.Now.Date;
                 patient.ModifiyDate = DateTime.Now.Date;
                 patient.IsDeleted = LogDetails.DeletedFalse;
                 patient.Fyear = LogDetails.CurrentFinancialYear;
                 patient.UserID = LogDetails.UserId;
                 patient.CompanyCode = LogDetails.CurrentCompanyCode;
-                
 
-                patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
-                patient.PatientID = basic.GetKey(patient.ID, 'P',false,true,true);
+
+                // patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
+                // patient.PatientID = basic.GetKey(patient.ID, 'P',false,true,true);
 
                 du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
                                 ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
-                                ConsultantFee ,   RegDate ,   RegTime ,   UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
+                                ConsultantFee ,   RegDate ,   RegTime , PaymentMode,  UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
                                 CompanyCode ,   Remarks ,   IsPaymentPaid,Age ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
                + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
                + ", " + patient.Type + ", " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
-               + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "', " + patient.UserID + ", '" + patient.AddDate
+               + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "','C', " + patient.UserID + ", '" + patient.AddDate
                + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
                + "', " + patient.IsPaymentPaid + ", " + patient.Age + ")");
 
-                Int32 id = basic.GetMax("Payment", "ID") + 1;
-                string paymentReceiptNo = basic.GetKey(id, 'C');
 
-                du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
-                        IsDeleted, BillNo, RegistratonNo, Remarks) 
-            values(" + id + ",'" + paymentReceiptNo + "', '" + patient.PatientID + "', '" + patient.RegDate + "', " + patient.ConsultantFee
-             + ", 'C', " + patient.UserID + ", '" + patient.AddDate + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted
-             + ", '', '" + patient.PatientID + "', 'Regsitration Fee'" + ")");
+                payment = new Payment();
+
+                payment.RegistratonNo = patient.PatientID;
+                payment.PatientID= patient.PatientID;
+                payment.Amount = patient.ConsultantFee;
+                payment.Remarks = "Regsitration Fee";
+                payment.PaymentDate = patient.RegDate;
+                payment.PaymentMode = "C";
+
+                paymentLocal.AddPayment(payment);
+
                 return true;
             }
             catch (Exception Ex)
             {
                 return false;
             }
-
-
-
-
-
         }
 
         private bool UpdatedPatient(Patient patient)
@@ -183,15 +183,28 @@ namespace HospitalWebAPI.Controllers
             try
             {
                 patient.ModifiyDate = DateTime.Now.Date;
-                 patient.UserID = LogDetails.UserId;
+                patient.UserID = LogDetails.UserId;
                 patient.CompanyCode = LogDetails.CurrentCompanyCode;
 
-                du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex + 
-                    "', ContactNumber1 = '" + patient.ContactNumber1 + "', ContactNumber2 = '" + patient.ContactNumber2 + "', Email = '" + patient.Email + 
-                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + ", Type = " + patient.Type + 
-                    ", IsFeeFree = " + patient.IsFeeFree + ", ConsultantName = '" + patient.ConsultantName + "', DepartmentID = " + patient.DepartmentID + 
-                    ", RegDate = '" + patient.RegDate+ "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID + 
+                du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex +
+                    "', ContactNumber1 = '" + patient.ContactNumber1 + "', ContactNumber2 = '" + patient.ContactNumber2 + "', Email = '" + patient.Email +
+                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + ", Type = " + patient.Type +
+                    ", IsFeeFree = " + patient.IsFeeFree + ", ConsultantName = '" + patient.ConsultantName + "', DepartmentID = " + patient.DepartmentID +
+                    ", RegDate = '" + patient.RegDate + "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID +
                     ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "' where PatientID = '" + patient.PatientID + "'");
+
+                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistratonNo ='" + patient.PatientID + "'");
+
+                payment = new Payment();
+
+                payment.PaymentReceiptNo= paymentReceiptNo;
+                payment.RegistratonNo = patient.PatientID;
+                payment.Amount = patient.ConsultantFee;
+                payment.Remarks = "Regsitration Fee";
+                payment.PaymentDate = patient.RegDate;
+                payment.PaymentMode = "C";
+
+                paymentLocal.UpdatePayment(payment);
 
                 return true;
             }
@@ -201,11 +214,15 @@ namespace HospitalWebAPI.Controllers
             }
         }
 
-        private bool UpdatedPatient(string ID)
+        private bool DeletePatient(string ID)
         {
             try
             {
+                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistratonNo ='" + ID + "'");
+
                 du.DeleteRow(@"update PatientRegstration set IsDeleted = 1 where PatientID ='" + ID + "'");
+
+                paymentLocal.DeletePayment(paymentReceiptNo);
 
                 return true;
             }

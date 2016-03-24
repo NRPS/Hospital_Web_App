@@ -49,17 +49,6 @@ namespace HospitalWebAPI.Controllers
                 return BadRequest();
         }
 
-        // PUT: api/PatientType/5
-        public void Put(int id, [FromBody]string value)
-        {
-
-        }
-
-        // DELETE: api/PatientType/5
-        public void Delete(int id)
-        {
-
-        }
 
         #endregion
 
@@ -84,11 +73,11 @@ namespace HospitalWebAPI.Controllers
         }
 
 
-        private DataSet GetPatientType(string TableName, int TypeID)
+        private DataSet GetPatientType(string TableName, int id)
         {
             try
             {
-                String condition = TypeID <= 0 ? "" : " ID = " + TypeID;
+                String condition = id <= 0 ? "" : " ID = " + id;
                 return du.GetTable(TableName, condition);
             }
             catch (Exception Ex)
@@ -97,19 +86,22 @@ namespace HospitalWebAPI.Controllers
             }
         }
 
-        private bool AddPatientType(PatientType PatientType)
+        private bool AddPatientType(PatientType patientType)
         {
             try
             {
+                Basic basic = new Basic();
+
+                patientType.ID = basic.GetMax("PatientType", "ID") + 1;
+
                 return du.AddRow(@"insert into PatientType(  ID ,    Type ,   Remark)
-            values(" + PatientType.ID + ", '" + PatientType.Type + "', '" + PatientType.Remarks + "')");
+                values(" + patientType.ID + ", '" + patientType.Type + "', '" + patientType.Remarks + "')");
             }
             catch (Exception Ex)
             {
                 return false;
             }
         }
-
         #endregion
     }
 }

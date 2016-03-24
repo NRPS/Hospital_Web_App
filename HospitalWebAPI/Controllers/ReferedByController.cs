@@ -35,7 +35,7 @@ namespace HospitalWebAPI.Controllers
         // GET: api/ReferedBy/5
         public IHttpActionResult Get(int id)
         {
-            var referedBy = referedByList.Where(x => x.RefID == id).FirstOrDefault();
+            var referedBy = referedByList.Where(x => x.ID == id).FirstOrDefault();
 
             if (referedBy == null)
                 return NotFound();
@@ -52,18 +52,6 @@ namespace HospitalWebAPI.Controllers
                 return BadRequest();
         }
 
-        // PUT: api/ReferedBy/5
-        public void Put(int id, [FromBody]string value)
-        {
-
-        }
-
-        // DELETE: api/ReferedBy/5
-        public void Delete(int id)
-        {
-
-        }
-
         #endregion
 
         #region Priavte
@@ -75,16 +63,20 @@ namespace HospitalWebAPI.Controllers
             referedByList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
             new ReferedBy
             {
+                ID = r.Field<Int16>("ID"),
                 Name = r.Field<string>("name"),
-                ContactNumber = r.Field<string>("ContactNumber"),
-                RefID = r.Field<Int16>("RefID")
+                ContactNumber = r.Field<string>("ContactNumber")
             }).ToList();
         }
 
         private bool AddRefBy(ReferedBy referedBy)
         {
-            return du.AddRow(@"insert into ReferedBy(  RefID ,    Name ,   ContactNumber)
-            values(" + referedBy.RefID + ", '" + referedBy.Name + "', '" + referedBy.ContactNumber + "')");
+            Basic basic = new Basic();
+
+            referedBy.ID = basic.GetMax("ReferedBy", "ID") + 1;
+
+            return du.AddRow(@"insert into ReferedBy(  ID ,    Name ,   ContactNumber)
+            values(" + referedBy.ID + ", '" + referedBy.Name + "', '" + referedBy.ContactNumber + "')");
         }
 
         #endregion

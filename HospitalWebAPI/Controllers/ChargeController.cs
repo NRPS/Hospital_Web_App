@@ -46,22 +46,10 @@ namespace HospitalWebAPI.Controllers
         // POST: api/Charges
         public IHttpActionResult Post([FromBody]Charges charges)
         {
-            if (AddRefBy(charges) == true)
+            if (AddCharge(charges) == true)
                 return Ok();
             else
                 return BadRequest();
-        }
-
-        // PUT: api/Charges/5
-        public void Put(int id, [FromBody]string value)
-        {
-
-        }
-
-        // DELETE: api/Charges/5
-        public void Delete(int id)
-        {
-
         }
 
         #endregion
@@ -72,17 +60,22 @@ namespace HospitalWebAPI.Controllers
         {
             chargesList = du.GetTable(TableName).Tables[0].AsEnumerable().Select(r =>
             new Charges
-            {    ChargeID = r.Field<Int16>("ChargeID"),
-                ChargeDescription = r.Field<string>("Description"),
+            {   ID = r.Field<Int16>("ID"),
+                Description = r.Field<string>("Description"),
                 Code = r.Field<string>("Code"),
                 Rate = r.Field<decimal>("Rate")
             }).ToList();
         }
 
-        private bool AddRefBy(Charges charges)
+        private bool AddCharge(Charges charges)
         {
-            return du.AddRow(@"insert into Charges( ChargeID  , Code ,    Description ,   Rate)
-            values(" + charges.ChargeID + ", '" + charges.Code + "', '" + charges.ChargeDescription + "'," + charges.ChargeDescription+ ")");
+            Basic basic = new Basic();
+
+            charges.ID = basic.GetMax("Charges", "ID")  + 1;
+            charges.Code = charges.ID.ToString();
+
+            return du.AddRow(@"insert into Charges( ID  , Code ,    Description ,   Rate)
+            values(" + charges.ID + ", '" + charges.Code + "', '" + charges.Description + "'," + charges.Rate+ ")");
         }
 
         #endregion
