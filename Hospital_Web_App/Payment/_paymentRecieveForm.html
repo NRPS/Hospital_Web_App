@@ -3,75 +3,69 @@
         <div id="formHeader">
             <h4>Payment Recieved Form</h4>
         </div>
-        <form class="form-horizontal" role="form" style="margin:10px;">
+        <form class="form-horizontal" role="form" style="margin:10px;" name="form1" novalidate>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="patientId">Patient Id:</label>
+                <label class="control-label col-sm-2" for="patientId">Patient ID:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="patientId" readonly>
+                    <div class="inner-addon right-inner-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input type="text" class="form-control" ng-model="patientId" tabindex="0" name="patientId"
+                               ng-keypress="search($event)" required ng-class="{'form-error':submitted && form1.patientId.$error.required}">
+                        <span class="error-message" ng-show="submitted && form1.patientId.$error.required">Enter ptient ID to search</span>
+                    </div>
                 </div>
                 <label class="control-label col-sm-2" for="patientName">Patient Name:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="patientName" placeholder="Enter Patient Name">
+                    <input type="text" class="form-control" ng-model="patientName" readonly>
                 </div>
             </div>
+        </form>
+        <form class="form-horizontal" role="form" style="margin:10px;">
             <div class="form-group">
-                <label class="control-label col-sm-2" for="age">Patient Age:</label>
+                <label class="control-label col-sm-2" for="recieptNo">Reciept No:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="age" placeholder="Enter Age">
+                    <input type="text" ng-model="recieptNo" tabindex="1" class="form-control" />
                 </div>
+
                 <label class="control-label col-sm-2" for="attendantName">Attendant Name:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="attendantName" placeholder="Enter Attendant Name">
+                    <input type="text" class="form-control" ng-model="attendantName" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="address">Full Address:</label>
+                <label class="control-label col-sm-2" for="dateOfAdmit">Payment Date:</label>
                 <div class="col-sm-4">
-                    <textarea class="form-control" ng-model="address" placeholder="Enter Address"></textarea>
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup.opened"
+                               datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDatePickerPopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
                 <label class="control-label col-sm-2" for="contactNo">Contact No:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="contactNo" placeholder="Enter Contact No" />
+                    <input type="text" class="form-control" ng-model="contactNo"  readonly />
                 </div>
+
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="pType">Patient Type:</label>
                 <div class="col-sm-4">
-                    <select class="form-control">
-                        <option>Select</option>
-                    </select>
+                    <input type="text" ng-model="patientType" class="form-control" readonly />
                 </div>
-                <label class="control-label col-sm-2" for="sex">Sex:</label>
-                <div class="col-sm-4">
-                    <input type="text" ng-model="sex" class="form-control"/>
+                <label class="control-label col-sm-2" for="age"> Age/Sex:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" ng-model="age" readonly>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="consultantName">Consultant Name:</label>
-                <div class="col-sm-4">
-                    <input type="email" class="form-control" ng-model="consultantName" placeholder="Enter Email Id" />
-                </div>
-                <label class="control-label col-sm-2" for="department">Department:</label>
-                <div class="col-sm-4">
-                    <select class="form-control">
-                        <option>Select</option>
-                    </select>
+                <div class="col-sm-2">
+                    <input type="text" ng-model="sex" class="form-control" readonly />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="paymentdate">Payment Date:</label>
+                <label class="control-label col-sm-2" for="amountDue">Amount After Pay:</label>
                 <div class="col-sm-4">
-                    <input type="date" class="form-control" ng-model="paymentdate" />
-                </div>
-                <label class="control-label col-sm-2" for="recieptNo">Reciept No:</label>
-                <div class="col-sm-4">
-                    <input type="text" ng-model="recieptNo" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="amountDue">Amount Remaining:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="amountDue"/>
+                    <input type="text" class="form-control" ng-model="amountDue" readonly />
                 </div>
                 <label class="control-label col-sm-2" for="paymentMode">Payment Mode:</label>
                 <div class="col-sm-4">
@@ -84,7 +78,7 @@
                 <div class="form-group" style="margin:2px;margin-top:10px;">
                     <label class="control-label col-sm-2" for="balanceAmount">Balance Amount:</label>
                     <div class="col-sm-4">
-                        <input type="text" ng-model="balanceAmount" class="form-control" />
+                        <input type="text" ng-model="balanceAmount" class="form-control" readonly />
                     </div>
                     <label class="control-label col-sm-2" for="payNow">Pay Now:</label>
                     <div class="col-sm-4">
@@ -97,12 +91,15 @@
 
                 </div>
                 <div class="col-sm-2">
-                    <button type="submit" class="btn btn-success" style="margin-bottom:5px;">Add New Patient</button>
+                    <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPayment()">Add New Payment</button>
                 </div>
-                <div class="col-sm-5">
-                    <button type="submit" class="btn btn-info" style="margin-bottom:5px;">Edit</button>
+                <div class="col-sm-1">
+                    <button type="submit" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePayment()">Update Payment</button>
+                </div>
+                <div class="col-sm-1">
+                    <button type="submit" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePayment()">Delete Payment</button>
                 </div>
             </div>
         </form>
-     </div>
+    </div>
 </div>

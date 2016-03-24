@@ -4,7 +4,7 @@ define([], function () {
     function PatientRegiCtrl($scope, $http, PatientService) {
         // var patientId = 'P2016020001';
         //var ajaxResponse;
-        $scope.female = false;
+        $scope.female = true;
         $scope.male = false;
 
         getReferedByList();
@@ -164,6 +164,7 @@ define([], function () {
             patientData.Remarks = $scope.remarks;
             patientData.RegDate = $scope.dt;
             patientData.Sex = $scope.sex;
+            
             if($scope.patientType){
                 //var len = $scope.patientTypeList.length;
                 if (typeof ($scope.patientType) === "object") {

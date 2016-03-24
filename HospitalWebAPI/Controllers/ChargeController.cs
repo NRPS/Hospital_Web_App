@@ -72,7 +72,7 @@ namespace HospitalWebAPI.Controllers
             Basic basic = new Basic();
 
             charges.ID = basic.GetMax("Charges", "ID")  + 1;
-            charges.Code = charges.ID.ToString();
+            charges.Code = basic.GetKey(charges.ID, 'T', 4);
 
             return du.AddRow(@"insert into Charges( ID  , Code ,    Description ,   Rate)
             values(" + charges.ID + ", '" + charges.Code + "', '" + charges.Description + "'," + charges.Rate+ ")");

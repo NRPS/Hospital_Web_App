@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +77,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Bill\_billCtrl.js" />
+    <Content Include="Bill\_billFactory.js" />
     <Content Include="bower_components\angular-cookies\.bower.json" />
     <Content Include="bower_components\angular-cookies\angular-cookies.min.js.map" />
     <Content Include="bower_components\angular-cookies\bower.json" />
@@ -580,7 +583,10 @@
     <Content Include="Patient_Registration\_patientRegiCtrl.js" />
     <Content Include="Patient_Registration\_patientRegistration.css" />
     <Content Include="Patient_Registration\_patientRegistration.html" />
-    <Content Include="Payment\_billEntryForm.html" />
+    <Content Include="Bill\_billEntryForm.html" />
+    <Content Include="Payment\_paymentRegistration.css" />
+    <Content Include="Payment\_paymentFactory.js" />
+    <Content Include="Payment\_paymentCtrl.js" />
     <Content Include="Payment\_paymentRecieveForm.html" />
     <Content Include="User_Registration\_signUp.css" />
     <Content Include="User_Registration\_signUp.html" />

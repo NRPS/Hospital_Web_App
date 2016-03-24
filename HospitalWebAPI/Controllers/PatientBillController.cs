@@ -97,6 +97,7 @@ namespace HospitalWebAPI.Controllers
                 {
                     BillID = r.Field<Int16>("BillID"),
                     BillNo = r.Field<string>("BillNo"),
+                    LabCode = r.Field<string>("LabCode"),
                     Amount = r.Field<decimal>("Amount"),
                     Discount = r.Field<decimal>("Discount"),
                     Rate = r.Field<decimal>("Rate"),
@@ -147,9 +148,9 @@ namespace HospitalWebAPI.Controllers
 
             try
             {
-                // Int32 id = basic.GetMax("PatientBill", "ID") + 1;
-                //  string billNo = basic.GetKey(id, 'B');
-
+                
+                patientBill.ID = basic.GetMax("PatientBill", "ID") + 1;
+                patientBill.BillNo = basic.GetKey(patientBill.ID, 'B', true, true);
 
                 patientBill.AddDate = DateTime.Now.Date;
                 patientBill.ModifiyDate = DateTime.Now.Date;
@@ -164,14 +165,16 @@ namespace HospitalWebAPI.Controllers
                 + "," + patientBill.AmountPaid + ",'" + patientBill.PaymentMode + "','" + patientBill.Remarks + "' ," + patientBill.UserID + ", '" + patientBill.CompanyCode + "', " + patientBill.Fyear + ", '" + patientBill.AddDate + "', '"
                 + patientBill.ModifiyDate + "', " + patientBill.IsDeleted + ")");
 
-                Int32 billID = basic.GetMax("PatientBillDetails", "BillID", " billno = '" + patientBill.BillNo + "'") + 1;
-
+    
                 PatientBillDetails patientBillDetails = new PatientBillDetails();
 
                 patientBillDetails = patientBill.BillDetails[0];
 
-                du.AddRow(@"insert into PatientBillDetails(BillID,BillNo,Amount ,Discount, Remarks, Rate, Quantity, NetAmount ,FromDate ,ToDate)
-                values(" + billID + ",'" + patientBill.BillNo + "'," + patientBillDetails.Amount + ", " + patientBillDetails.Discount + ", '"
+                patientBillDetails.BillID = basic.GetMax("PatientBillDetails", "BillID", " billno = '" + patientBill.BillNo + "'") + 1;
+                patientBillDetails.BillNo = patientBill.BillNo;
+
+                du.AddRow(@"insert into PatientBillDetails(BillID,BillNo, LabCode,Amount ,Discount, Remarks, Rate, Quantity, NetAmount ,FromDate ,ToDate)
+                values(" + patientBillDetails.BillID + ",'" + patientBillDetails.BillNo + "','" + patientBillDetails.LabCode + "'," + patientBillDetails.Amount + ", " + patientBillDetails.Discount + ", '"
                 + patientBillDetails.Remarks + "', " + patientBillDetails.Rate + "," + patientBillDetails.Quantity + "," + patientBillDetails.NetAmount + ",'"
                 + patientBillDetails.FromDate + ", " + patientBillDetails.ToDate + "')");
 
@@ -207,9 +210,9 @@ namespace HospitalWebAPI.Controllers
             patientBillDetails = patientBill.BillDetails[0];
 
             du.AddRow(@"update PatientBillDetails set Amount = " + patientBillDetails.Amount + ", Discount=" + patientBillDetails.Discount + ", Remarks='" 
-                + patientBillDetails.Remarks + "', Rate= " + patientBillDetails.Rate + ", Quantity = " + patientBillDetails.Quantity + ", NetAmount =" 
-                + patientBillDetails.NetAmount + ", FromDate ='" + patientBillDetails.FromDate + "', ToDate = '" + patientBillDetails.ToDate + "' where BillNo='"
-                + patientBill.BillNo + "' and BillID=" + patientBillDetails.BillID);
+                + patientBillDetails.Remarks + "', LabCode ='" + patientBillDetails.LabCode + "', Rate= " + patientBillDetails.Rate + ", Quantity = " 
+                + patientBillDetails.Quantity + ", NetAmount ="                 + patientBillDetails.NetAmount + ", FromDate ='" + patientBillDetails.FromDate 
+                + "', ToDate = '" + patientBillDetails.ToDate + "' where BillNo='" + patientBill.BillNo + "' and BillID=" + patientBillDetails.BillID);
 
             payment = new Payment();
 

@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BalanceAmountController.cs" />
+    <Compile Include="Controllers\LabController.cs" />
     <Compile Include="Controllers\ChargeController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\IndoorPatientController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Labs.cs" />
     <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\Charges.cs" />
     <Compile Include="Models\CommanProperties.cs" />
@@ -194,7 +196,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CommanUtilities\CommanUtilities.csproj">
       <Project>{cb5a53ab-e434-4aeb-80c0-4066e40a6fcb}</Project>

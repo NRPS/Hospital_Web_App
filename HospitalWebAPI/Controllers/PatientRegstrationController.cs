@@ -102,9 +102,9 @@ namespace HospitalWebAPI.Controllers
                     ContactNumber2 = r.Field<string>("ContactNumber2"),
                     DepartmentID = r.Field<Int16>("DepartmentID"),
                     IsFeeFree = r.Field<Boolean>("IsFeeFree"),
-                    RefDrID = r.Field<Int16>("RefDrID"),
+                    RefByID = r.Field<Int16>("RefByID"),
                     RegDate = r.Field<DateTime>("RegDate"),
-                    Type = r.Field<Int16>("Type"),
+                    TypeID = r.Field<Int16>("TypeID"),
                     RegTime = r.Field<string>("RegTime"),
                     Remarks = r.Field<string>("Remarks")
                 }).ToList();
@@ -143,17 +143,16 @@ namespace HospitalWebAPI.Controllers
                 patient.UserID = LogDetails.UserId;
                 patient.CompanyCode = LogDetails.CurrentCompanyCode;
 
-
-                // patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
-                // patient.PatientID = basic.GetKey(patient.ID, 'P',false,true,true);
-
+                patient.ID = basic.GetMax("PatientRegstration", "ID") + 1;
+                patient.PatientID = basic.GetKey(patient.ID, 'P', true, true);
+    
                 du.AddRow(@"insert into PatientRegstration(  ID ,   PatientID ,   Name ,   AttendentName ,   Sex ,  
-                                ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefDrID ,   Type ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
+                                ContactNumber1 ,   ContactNumber2 ,  Email ,   Address ,   RefByID ,   TypeID ,   IsFeeFree ,   ConsultantName ,   DepartmentID ,  
                                 ConsultantFee ,   RegDate ,   RegTime , PaymentMode,  UserID ,   AddDate ,   ModifiyDate ,   IsDeleted ,   Fyear ,  
                                 CompanyCode ,   Remarks ,   IsPaymentPaid,Age ) 
             values(" + patient.ID + ",'" + patient.PatientID + "', '" + patient.Name + "', '" + patient.AttendentName + "', '" + patient.Sex
-               + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefDrID
-               + ", " + patient.Type + ", " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
+               + "', '" + patient.ContactNumber1 + "', '" + patient.ContactNumber2 + "', '" + patient.Email + "', '" + patient.Address + "', " + patient.RefByID
+               + ", " + patient.TypeID + ", " + patient.IsFeeFree + ", '" + patient.ConsultantName + "', " + patient.DepartmentID
                + ", " + patient.ConsultantFee + ", '" + patient.RegDate + "', '" + patient.RegTime + "','C', " + patient.UserID + ", '" + patient.AddDate
                + "', '" + patient.ModifiyDate + "', " + patient.IsDeleted + ", " + patient.Fyear + ", '" + patient.CompanyCode + "', '" + patient.Remarks
                + "', " + patient.IsPaymentPaid + ", " + patient.Age + ")");
@@ -188,7 +187,7 @@ namespace HospitalWebAPI.Controllers
 
                 du.AddRow(@"update " + TableName + " set Name= '" + patient.Name + "', AttendentName= '" + patient.AttendentName + "', Sex= '" + patient.Sex +
                     "', ContactNumber1 = '" + patient.ContactNumber1 + "', ContactNumber2 = '" + patient.ContactNumber2 + "', Email = '" + patient.Email +
-                    "', Address = '" + patient.Address + "', RefDrID = " + patient.RefDrID + ", Type = " + patient.Type +
+                    "', Address = '" + patient.Address + "', RefByID = " + patient.RefByID + ", TypeID = " + patient.TypeID +
                     ", IsFeeFree = " + patient.IsFeeFree + ", ConsultantName = '" + patient.ConsultantName + "', DepartmentID = " + patient.DepartmentID +
                     ", RegDate = '" + patient.RegDate + "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID +
                     ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "' where PatientID = '" + patient.PatientID + "'");

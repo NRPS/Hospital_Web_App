@@ -15,8 +15,8 @@ E:\Web-Apps\Hospital_Web_App\CommanUtilities\bin\Debug\ClassLibrary1.pdb
 E:\Web-Apps\Hospital_Web_App\CommanUtilities\obj\Debug\ClassLibrary1.dll
 E:\Web-Apps\Hospital_Web_App\CommanUtilities\obj\Debug\ClassLibrary1.pdb
 E:\Web-Apps\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.csprojResolveAssemblyReference.cache
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\ClassLibrary1.dll.config
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\ClassLibrary1.dll
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\ClassLibrary1.pdb
-D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\ClassLibrary1.dll
-D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\ClassLibrary1.pdb
+D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\CommanUtilities.dll.config
+D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\CommanUtilities.dll
+D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\CommanUtilities.pdb
+D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.dll
+D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.pdb

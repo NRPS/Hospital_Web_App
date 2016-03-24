@@ -11,10 +11,13 @@ define(
         'Login/_signOut',
         'Patient_Registration/_patientRegiCtrl',
         'Patient_Registration/_patientFactory',
-        //'Datepicker/_datepickerCtrl',
+        'Payment/_paymentCtrl',
+        'Payment/_paymentFactory',
+        'Bill/_BillCtrl',
+        'Bill/_BillFactory',
         'bower_components/angular-ui-bootstrap/ui-bootstrap',
     ],
-    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService) {
+    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService, PaymentCtrl, PaymentService,BillCtrl, BillService) {
 
         var app = angular.module('hospital', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
 
@@ -23,11 +26,14 @@ define(
         app.factory('Base64', Base64Encoder);
         app.factory('LoginService', logInfactory);
         app.factory('PatientService', PatientService)
+        app.factory('PaymentService', PaymentService)
+        app.factory('BillService', BillService)
         app.controller('LoginCtrl', Login);
         app.controller('UserRegistrationCtrl', SignUp);
         app.controller('SignOutCtrl', SignOutCtrl)
         app.controller('PatientRegiCtrl', PatientRegiCtrl)
-       // app.controller('DatePickerCtrl', DatePickerCtrl);
+        app.controller('PaymentCtrl', PaymentCtrl)
+        app.controller('BillCtrl', BillCtrl)
         app.controller('AppCtrl', ['$scope', '$rootScope', '$cookieStore', function ($scope, $rootScope, $cookieStore) {
             if ($cookieStore.get('globals') != undefined) {
                 $scope.login = false;
@@ -39,6 +45,4 @@ define(
                 $scope.logOut = false;
             }
         }]);
-
-        // return angularAMD.bootstrap(app);
     });

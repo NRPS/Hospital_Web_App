@@ -78,7 +78,10 @@ namespace CommanUtilities
             return id;
         }
 
-
+        public String GetKey(int Srno, Char Prefix = '~', int Length = 6)
+        {
+            return GetKey(Srno, Prefix, false, false, false,Length);
+        }
         public String GetKey(int Srno, Char Prefix = '~', bool isYearPrefix = false, bool isMonthPrefix = false)
         {
             return GetKey(Srno, Prefix, false, isYearPrefix, isMonthPrefix);

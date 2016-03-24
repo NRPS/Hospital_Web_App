@@ -11,7 +11,8 @@
     <link href="Login/_login.css" rel="stylesheet" />
     <link href="Patient_Registration/_patientRegistration.css" rel="stylesheet" />
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+   <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>-->
+    <script src="bower_components/angular/angular.min.js"></script>
 </head>
 <body>
     <div class="container" ng-controller="AppCtrl">
@@ -32,8 +33,8 @@
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li><a href="#/PatientReg">Patient Registration</a></li>
-                            <li><a href="#/PaymentRecvForm">Payment Recieved</a></li>
                             <li><a href="#/BillEntry">Bill Entry</a></li>
+                            <li><a href="#/PaymentRecvForm">Payment Recieved</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a>{{loggedInUser}}</a></li>

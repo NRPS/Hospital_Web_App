@@ -18,8 +18,8 @@ namespace HospitalWebAPI.Models
         public string ContactNumber2 { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
-        public int RefDrID { get; set; }
-        public int Type { get; set; }
+        public int RefByID { get; set; }
+        public int TypeID { get; set; }
         public bool IsFeeFree { get; set; }
         public string ConsultantName { get; set; }
         public int DepartmentID { get; set; }

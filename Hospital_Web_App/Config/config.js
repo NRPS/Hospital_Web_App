@@ -7,10 +7,12 @@ define([], function () {
             controller: 'PatientRegiCtrl'
         })
        .when('/PaymentRecvForm', {
-           templateUrl: 'Payment/_paymentRecieveForm.html'
+           templateUrl: 'Payment/_paymentRecieveForm.html',
+           controller: 'PaymentCtrl'
        })
        .when('/BillEntry', {
-           templateUrl: 'Payment/_billEntryForm.html'
+           templateUrl: 'Bill/_billEntryForm.html',
+           controller: 'BillCtrl'
        })
        .when('/SignUp', {
             templateUrl: 'User_Registration/_signUp.html',
