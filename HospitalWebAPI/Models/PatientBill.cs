@@ -9,10 +9,10 @@ namespace HospitalWebAPI.Models
     {
         public string BillNo { get; set; }
         public string PatientID { get; set; }
-        public DateTime BillDate { get; set; }       
+        public DateTime? BillDate { get; set; }       
         public string Remarks { get; set; }
-        public decimal AmountPaid { get; set; }
-        public decimal BillTotal { get; set; }
+        public decimal? AmountPaid { get; set; }
+        public decimal? BillTotal { get; set; }
         public string PaymentMode { get; set; }
 
         public List<PatientBillDetails> BillDetails { get; set; }

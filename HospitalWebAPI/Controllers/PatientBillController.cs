@@ -85,10 +85,10 @@ namespace HospitalWebAPI.Controllers
                 {
                     ID = r.Field<Int32>("ID"),
                     BillNo = r.Field<string>("BillNo"),
-                    BillDate = r.Field<DateTime>("BillDate"),
+                    BillDate = r.Field<DateTime?>("BillDate"),
                     PatientID = r.Field<string>("PatientID"),
-                    BillTotal = r.Field<decimal>("BillTotal"),
-                    AmountPaid = r.Field<decimal>("AmountPaid"),
+                    BillTotal =  r.Field<decimal?>("BillTotal") ,
+                    AmountPaid = r.Field<decimal?>("AmountPaid"),
                     Remarks = r.Field<string>("Remarks")
                 }).ToList();
 
@@ -98,13 +98,13 @@ namespace HospitalWebAPI.Controllers
                     BillID = r.Field<Int16>("BillID"),
                     BillNo = r.Field<string>("BillNo"),
                     LabCode = r.Field<string>("LabCode"),
-                    Amount = r.Field<decimal>("Amount"),
-                    Discount = r.Field<decimal>("Discount"),
-                    Rate = r.Field<decimal>("Rate"),
-                    Quantity = r.Field<Int16>("Quantity"),
-                    NetAmount = r.Field<decimal>("NetAmount"),
-                    FromDate = r.Field<DateTime>("FromDate"),
-                    ToDate = r.Field<DateTime>("ToDate")
+                    Amount = r.Field<decimal?>("Amount"),
+                    Discount = r.Field<decimal?>("Discount"),
+                    Rate = r.Field<decimal?>("Rate"),
+                    Quantity = r.Field<Int16?>("Quantity"),
+                    NetAmount = r.Field<decimal?>("NetAmount"),
+                    FromDate = r.Field<DateTime?>("FromDate"),
+                    ToDate = r.Field<DateTime?>("ToDate")
 
                 }).ToList();
 

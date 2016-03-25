@@ -63,7 +63,7 @@ namespace HospitalWebAPI.Controllers
             {   ID = r.Field<Int16>("ID"),
                 Description = r.Field<string>("Description"),
                 Code = r.Field<string>("Code"),
-                Rate = r.Field<decimal>("Rate")
+                Rate = r.Field<decimal?>("Rate")
             }).ToList();
         }
 

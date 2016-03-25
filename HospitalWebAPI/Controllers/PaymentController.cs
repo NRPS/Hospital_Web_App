@@ -89,9 +89,9 @@ namespace HospitalWebAPI.Controllers
                     ID = r.Field<Int32>("ID"),
                     PaymentReceiptNo = r.Field<string>("PaymentReceiptNo"),
                     PatientID = r.Field<string>("PatientID"),
-                    Amount = r.Field<Decimal>("Amount"),
+                    Amount = r.Field<Decimal?>("Amount"),
                     BillNo = r.Field<string>("BillNo"),
-                    PaymentDate = r.Field<DateTime>("PaymentDate"),
+                    PaymentDate = r.Field<DateTime?>("PaymentDate"),
                     PaymentMode = r.Field<string>("PaymentMode"),
                     RegistratonNo = r.Field<string>("RegistratonNo"),
                     Remarks = r.Field<string>("Remarks"),
@@ -135,13 +135,20 @@ public class PaymentLocal
             {
                 Basic basic = new Basic();
                 payment.ID = basic.GetMax("Payment", "ID") + 1;
-                payment.RegistratonNo = basic.GetKey(payment.ID, 'C', true, true);
+                payment.PaymentReceiptNo = basic.GetKey(payment.ID, 'C', true, true);
             }
 
-          return  du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, 
+            payment.AddDate = DateTime.Now.Date;
+            payment.ModifiyDate = DateTime.Now.Date;
+            payment.IsDeleted = LogDetails.DeletedFalse;
+            payment.Fyear = LogDetails.CurrentFinancialYear;
+            payment.UserID = LogDetails.UserId;
+            payment.CompanyCode = LogDetails.CurrentCompanyCode;
+
+            return du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, Fyear,
                         IsDeleted, BillNo, RegistratonNo, Remarks) 
             values(" + payment.ID + ",'" + payment.PaymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
-         + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.IsDeleted
+         + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.Fyear + "," + payment.IsDeleted
          + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");
 
         }
@@ -161,11 +168,10 @@ public class PaymentLocal
 
 
            return du.AddRow(@"update Payment set PaymentDate = '" + payment.PaymentDate + "', Amount = " + payment.Amount + ", PaymentMode = '" + payment.PaymentMode
-                + "', UserID = " + payment.UserID + ", ModifiyDate= '" + payment.ModifiyDate + "', BillNo = '" + payment.BillNo + "', RegistratonNo='"
-                + payment.PatientID + "', Remarks = '" + payment.Remarks + "' where PaymentReceiptNo = '" + payment.PaymentReceiptNo + "'");
+                + "', UserID = " + payment.UserID + ", ModifiyDate= '" + payment.ModifiyDate + "',  Remarks = '" + payment.Remarks + "' where PaymentReceiptNo = '" 
+                + payment.PaymentReceiptNo + "'");
 
         }
-
         catch (Exception Ex)
         {
             return false;
