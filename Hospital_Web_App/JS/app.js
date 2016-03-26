@@ -20,7 +20,7 @@ define(
     function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService, PaymentCtrl, PaymentService,BillCtrl, BillService) {
 
         var app = angular.module('hospital', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
-
+        
         app.config(Config);
         app.run(RunApp);
         app.factory('Base64', Base64Encoder);

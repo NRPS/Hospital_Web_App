@@ -20,3 +20,4 @@ D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\CommanUtilities.dll
 D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Debug\CommanUtilities.pdb
 D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.dll
 D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.pdb
+D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Debug\CommanUtilities.csprojResolveAssemblyReference.cache

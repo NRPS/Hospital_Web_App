@@ -4,13 +4,13 @@ define([], function () {
     function BillService($http) {
         var service = {};
         var response = {};
-        var uri = "http://localhost:2054//api/";
+        var uri = "http://localhost/HospitalWebAPI/api/";
 
         service.getPatientDataById = function (patientId) {
             response = $http({
                 url: uri + 'patientRegstration' + '/' + patientId,
                 method: "GET",
-                dataType: "json",
+                dataType: "jsonp",
                 async: false,
             })
             return response;

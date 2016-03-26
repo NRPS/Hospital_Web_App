@@ -29,7 +29,7 @@ namespace HospitalWebAPI.Controllers
 
         #region  CURD
 
-        // POST: api/ReferedBy
+       
         public IHttpActionResult Post([FromBody]Patient patient)
         {
             if (AddPatient(patient) == true)
@@ -37,6 +37,9 @@ namespace HospitalWebAPI.Controllers
             else
                 return BadRequest();
         }
+
+
+        [AcceptVerbs("PUT")]
         public IHttpActionResult Put([FromBody]Patient patient)
         {
             if (UpdatedPatient(patient) == true)
