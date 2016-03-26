@@ -1,5 +1,0 @@
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Release\CommanUtilities.dll.config
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Release\CommanUtilities.dll
-D:\MandiApp\Hospital_Web_App\CommanUtilities\bin\Release\CommanUtilities.pdb
-D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Release\CommanUtilities.dll
-D:\MandiApp\Hospital_Web_App\CommanUtilities\obj\Release\CommanUtilities.pdb
