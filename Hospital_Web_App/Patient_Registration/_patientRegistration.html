@@ -3,16 +3,28 @@
         <div id="formHeader">
             <h4>Patient Registration</h4>
         </div>
-        <form class="form-horizontal" role="form" style="margin:10px;" name="form1" novalidate>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="patientId">Patient Id:</label>
+        <form class="form-horizontal" role="form" style="margin:10px;" name="searchForm" novalidate>
+            <div class="form-group search-section">
+                <div>
+                    <label class="control-label col-sm-2" for="pId">Patient ID:</label>
+                </div>
                 <div class="col-sm-4">
                     <div class="inner-addon right-inner-addon">
                         <i class="glyphicon glyphicon-search"></i>
-                        <input type="text" class="form-control" ng-model="patientId" name="patientId"
-                               ng-keypress="search($event)" required ng-class="{'form-error':submitted && form1.patientId.$error.required}">
-                        <span class="error-message" ng-show="submitted && form1.patientId.$error.required">Please enter Patient Id</span>
+                        <input type="text" class="form-control" ng-model="searchItem" name="searchItem" placeholder="Enter Patient Id to search" ng-keypress="search($event)" required ng-class="{'form-error':srchFrmSubmitted && searchForm.searchItem.$error.required}">
+                        <span class="error-message" ng-show="srchFrmSubmitted && searchForm.searchItem.$error.required">Enter valid Patient Id to search</span>
                     </div>
+                </div>
+               <!-- <div class="col-sm-4">
+                    <input type="submit" value="Search" ng-click="search($event)" class="btn btn-success" />
+                </div>-->
+            </div>
+        </form>
+        <form class="form-horizontal" role="form" style="margin:10px;" name="patientDeatilsForm" novalidate ng-submit="addNewPatient()">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="patientId">Patient Id:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="patientId" name="patientId" readonly>
                 </div>
                 <label class="control-label col-sm-2" for="dateOfAdmit">Date:</label>
                 <div class="col-sm-4">
@@ -25,77 +37,85 @@
                     </p>
                 </div>
             </div>
-        </form>
-        <form class="form-horizontal" role="form" style="margin:10px;">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="patientName">Patient Name:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="patientName" placeholder="Enter patient name">
+                    <input type="text" class="form-control" ng-model="patientName" name="patientName" placeholder="Enter Patient Name" required ng-class="{'form-error':submitted && patientDeatilsForm.patientName.$error.required}">
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.patientName.$error.required">Please enter Patient Name</span>
                 </div>
                 <label class="control-label col-sm-2" for="sex">Sex:</label>
                 <div class="col-sm-4">
-                    <input type="radio" id="female" name="sex" ng-model="sex" value="F" />
-                    <label for="female"><span></span>Female</label>
+                    <input type="radio" id="male" name="sex" ng-model="sex" value="M" required />
 
-                    <input type="radio" id="male" name="sex" ng-model="sex" value="M" />
                     <label for="male" style="margin-top:8px;"><span></span>Male</label>
+
+                    <input type="radio" id="female" name="sex" ng-model="sex" value="F" required />
+
+                    <label for="female"><span></span>Female</label>
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.sex.$error.required">Please choose sex</span>
                 </div>
             </div>
             <div class="form-group">
 
                 <label class="control-label col-sm-2" for="age"> Age:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="age" placeholder="Enter age" style="width: 16%;">
+                    <input type="text" class="form-control" ng-model="age" placeholder="Age" name="age" style="width: 18%;" required ng-class="{'form-error':submitted && patientDeatilsForm.age.$error.required}">
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.age.$error.required">Please enter patient age</span>
                 </div>
 
                 <label class="control-label col-sm-2" for="referBy">Refer By:</label>
                 <div class="col-sm-4">
-                    <select class="form-control" ng-options="item.RefID as item.Name for item in referedByList track by item.RefID" ng-model="drName"></select>
+                    <select class="form-control" ng-options="item.ID as item.Name for item in referedByList" ng-model="drName"></select>
                 </div>
 
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="attendantName">Attendant Name:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="attendantName" placeholder="Enter attendant name">
+                    <input type="text" class="form-control" ng-model="attendantName" placeholder="Enter Attendant Name" name="attendantName" required ng-class="{'form-error':submitted && patientDeatilsForm.attendantName.$error.required}">
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.attendantName.$error.required">Please enter attendant name</span>
                 </div>
                 <label class="control-label col-sm-2" for="pType">Patient Type:</label>
                 <div class="col-sm-4">
-                    <select class="form-control" ng-options="item.ID as item.Type for item in patientTypeList track by item.ID" ng-model="patientType"></select>
+                    <select class="form-control" ng-options="item.ID as item.Type for item in patientTypeList" ng-model="patientType"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="address">Full Address:</label>
                 <div class="col-sm-4">
-                    <textarea class="form-control" ng-model="address" placeholder="Enter address"></textarea>
+                    <textarea class="form-control" ng-model="address" name="address" placeholder="Enter Address" required ng-class="{'form-error':submitted && patientDeatilsForm.address.$error.required}"></textarea>
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.address.$error.required">Please enter address</span>
                 </div>
 
                 <label class="control-label col-sm-2" for="department">Department:</label>
                 <div class="col-sm-4">
-                    <select class="form-control" ng-options="item.ID as item.Name for item in departmentList track by item.ID" ng-model="depName"></select>
+                    <select class="form-control" ng-options="item.ID as item.Name for item in departmentList" ng-model="depName"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="contactNo">Contact No:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="contactNo" placeholder="Enter contact number" />
+                    <input type="text" class="form-control" ng-model="contactNo" name="contactNo" placeholder="Enter Contact No" required ng-class="{'form-error':submitted && patientDeatilsForm.contactNo.$error.required}" />
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.contactNo.$error.required">Please enter address</span>
                 </div>
 
                 <label class="control-label col-sm-2" for="email">Email Id:</label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" ng-model="email" placeholder="Enter email ID" />
+                    <input type="email" class="form-control" ng-model="email" name="email" placeholder="Enter Email Id" required ng-class="{'form-error':submitted && patientDeatilsForm.email.$error.required}" />
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.email.$error.required">Please Enter Email Id</span>
                 </div>
 
                 <!--<label class="control-label col-sm-2" for="consultantName">Consultant Name:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="consultantName" placeholder="Enter consultant name" />
-                </div>-->
+            <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="consultantName" placeholder="Enter consultant name" />
+            </div>-->
 
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="consultantFee">Consultant Fee:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="consultantFee" placeholder="Enter consultant fee" />
+                    <input type="text" class="form-control" ng-model="consultantFee" name="consultantFee" placeholder="Enter Fee" required ng-class="{'form-error':submitted && patientDeatilsForm.consultantFee.$error.required}" />
+                    <span class="error-message" ng-show="submitted && patientDeatilsForm.consultantFee.$error.required">Please enter consultant fee</span>
                 </div>
 
                 <label class="control-label col-sm-2" for="remarks">Remarks:</label>
@@ -111,16 +131,13 @@
 
                 </div>
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPatient()">Add New Patient</button>
+                    <button type="submit" class="btn btn-success" style="margin-bottom:5px;">Add New Patient</button>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <button type="submit" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePatient()">Update Patient</button>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <button type="submit" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePatient()">Delete Patient</button>
-                </div>
-                <div class="col-sm-6">
-                    <!-- <uib-alert>{{alert.msg}}</uib-alert>-->
                 </div>
             </div>
         </form>

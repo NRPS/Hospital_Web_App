@@ -4,7 +4,7 @@ define([], function () {
     function PatientService($http) {
         var service = {};
         var response = {};
-        var uri = "http://localhost/HospitalWebAPI/api/";
+        var uri = "http://localhost:2054//api/";
         service.getPatientDataById = function (patientId) {
             response = $http({
                 url: uri + 'patientRegstration' + '/' + patientId,
@@ -41,9 +41,7 @@ define([], function () {
                 url: uri + 'patientRegstration',
                 data: JSON.stringify(patient),
                 method: "PUT",
-                dataType: "jsonp",
-                jsonp: 'jsonp',
-                crossDomain: true,
+                dataType: "json",
                 async: false,
             });
             return response;
@@ -51,30 +49,30 @@ define([], function () {
 
         service.getReferedByList = function () {
             response = $http({
-                url: uri + 'referedBy',
-                method: 'GET',
-                dataType: 'joson'
-            });
-            return response;
+            url: uri + 'referedBy',
+                    method : 'GET',
+                            dataType: 'joson'
+                    });
+                return response;
         };
-        service.getDeparmentList = function () {
+            service.getDeparmentList = function () {
             response = $http({
-                url: uri + 'department',
-                method: 'GET',
-                dataType: 'joson'
-            });
-            return response;
+            url: uri + 'department',
+                    method : 'GET',
+                            dataType: 'joson'
+                    });
+                return response;
         };
-        service.getPatientTypeList = function () {
+            service.getPatientTypeList = function () {
             response = $http({
-                url: uri + 'patientType',
-                method: 'GET',
-                dataType: 'joson'
-            });
-            return response;
+            url: uri + 'patientType',
+                    method : 'GET',
+                            dataType : 'joson'
+                    });
+                return response;
         };
-        return service;
-    };
-    PatientService.$inject = ['$http'];
-    return PatientService;
+            return service;
+            };
+    PatientService.$inject =['$http'];
+        return PatientService;
 })

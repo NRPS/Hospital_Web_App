@@ -13,12 +13,12 @@ define([], function () {
 
         $scope.search = function (event) {
             if (event.which == 13) {
-                if (!$scope.form1.$valid) {
-                    $scope.submitted = true;
+                if (!$scope.searchForm.$valid) {
+                    $scope.srchFrmSubmitted = true;
                 }
-                else if ($scope.form1.$valid) {
+                else if ($scope.searchForm.$valid) {
                     $scope.isLoading = true;
-                    var response = PatientService.getPatientDataById($scope.patientId);
+                    var response = PatientService.getPatientDataById($scope.searchItem);
                     response.success(function (data, status, headers, config) {
                         setData(data);
                         $scope.isLoading = false;
@@ -31,19 +31,26 @@ define([], function () {
         }
 
         $scope.addNewPatient = function () {
-            var response = PatientService.addNewPatient(setPatientData());
-            response.success(function (data, status, headers, config) {
-                console.log(data);
-            });
-            response.error(function (data, status, headers, config) {
 
-            });
+            if (!$scope.patientDeatilsForm.$valid) {
+                $scope.submitted = true;
+            }
+            else if ($scope.patientDeatilsForm.$valid) {
+                var response = PatientService.addNewPatient(setPatientData());
+                response.success(function (data, status, headers, config) {
+                    alert('Patient Data Saved Successfully');
+                    refreshForm();
+                });
+                response.error(function (data, status, headers, config) {
+
+                });
+            }
         };
 
         $scope.deletePatient = function () {
             var ajaxResponse = PatientService.deletePatientById($scope.patientId);
             ajaxResponse.success(function (data, status, headers, config) {
-                
+
             })
             ajaxResponse.error(function (data, status, headers, config) {
                 alert(status.Message);
@@ -73,11 +80,10 @@ define([], function () {
         };
 
         function getReferedByList() {
-           var ajaxResponse = PatientService.getReferedByList();
+            var ajaxResponse = PatientService.getReferedByList();
             ajaxResponse.success(function (data, status, headers, config) {
-                $scope.drName = data[0];
                 $scope.referedByList = data;
-
+                $scope.drName = $scope.referedByList[0].ID;
             })
             ajaxResponse.error(function (data, status, headers, config) {
                 alert(status.Message);
@@ -87,7 +93,7 @@ define([], function () {
         function getDeparmentList() {
             var ajaxResponse = PatientService.getDeparmentList();
             ajaxResponse.success(function (data, status, headers, config) {
-                $scope.depName = data[0];
+                $scope.depName = data[0].ID;
                 $scope.departmentList = data;
 
             })
@@ -99,7 +105,7 @@ define([], function () {
         function getPatientTypeList() {
             var ajaxResponse = PatientService.getPatientTypeList();
             ajaxResponse.success(function (data, status, headers, config) {
-                $scope.patientType = data[0];
+                $scope.patientType = data[0].ID;
                 $scope.patientTypeList = data;
 
             })
@@ -115,7 +121,7 @@ define([], function () {
                 $scope.age = response.Age;
                 $scope.attendantName = response.AttendentName;
                 $scope.address = response.Address;
-                $scope.contactNo = '+91' + response.ContactNumber1;
+                $scope.contactNo =  response.ContactNumber1;
                 $scope.email = response.Email;
                 $scope.consultantName = response.ConsultantName;
                 $scope.Department = response.DepartmentID;
@@ -128,8 +134,8 @@ define([], function () {
                 if ($scope.referedByList) {
                     var len = $scope.referedByList.length;
                     for (var i = 0; i < len; i++) {
-                        if ($scope.referedByList[i].RefID === response.RefDrID) {
-                            $scope.drName = $scope.referedByList[i];
+                        if ($scope.referedByList[i].ID === response.RefByID) {
+                            $scope.drName = $scope.referedByList[i].ID;
                             break;
                         }
                     }
@@ -137,8 +143,8 @@ define([], function () {
                 if ($scope.patientTypeList) {
                     var len = $scope.patientTypeList.length;
                     for (var i = 0; i < len; i++) {
-                        if ($scope.patientTypeList[i].ID === response.ID) {
-                            $scope.patientType = $scope.patientTypeList[i];
+                        if ($scope.patientTypeList[i].ID === response.TypeID) {
+                            $scope.patientType = $scope.patientTypeList[i].ID; 
                             break;
                         }
                     }
@@ -164,25 +170,50 @@ define([], function () {
             patientData.Remarks = $scope.remarks;
             patientData.RegDate = $scope.dt;
             patientData.Sex = $scope.sex;
-            
-            if($scope.patientType){
+
+            if ($scope.patientType) {
                 //var len = $scope.patientTypeList.length;
                 if (typeof ($scope.patientType) === "object") {
-                    patientData.Type = $scope.patientType.ID;
-                    }
+                    patientData.TypeID = $scope.patientType.ID;
+                }
                 else {
-                    patientData.Type = $scope.patientType.Type;
+                    patientData.TypeID = $scope.patientType
                 }
             }
             if (typeof ($scope.depName) === "object") {
                 patientData.DepartmentID = $scope.depName.ID;
             }
-            else{
+            else {
                 patientData.DepartmentID = $scope.depName
             }
-           
+            if (typeof ($scope.drName) === "object") {
+                patientData.RefByID = $scope.drName.ID;
+            }
+            else {
+                patientData.RefByID = $scope.drName
+            }
+            
             return patientData;
         }
+
+        function refreshForm() {
+            $scope.patientId = '';
+            $scope.patientName = '';
+            $scope.age ='';
+            $scope.attendantName = '';
+            $scope.address ='';
+            $scope.contactNo = '';
+            $scope.email = '';
+            $scope.sex = '';
+            $scope.consultantName ='';
+            $scope.consultantFee ='';
+            $scope.remarks = '';
+            $scope.drName = $scope.referedByList[0].ID;
+            $scope.depName = $scope.departmentList[0].ID;
+            $scope.patientType = $scope.patientTypeList[0].ID;
+            $scope.patientDeatilsForm.$setPristine();
+        };
+
         function isArray(x) {
             return x.constructor.toString().indexOf("Array") > -1;
         }
