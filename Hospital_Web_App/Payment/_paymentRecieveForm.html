@@ -3,28 +3,38 @@
         <div id="formHeader">
             <h4>Payment Recieved Form</h4>
         </div>
-        <form class="form-horizontal" role="form" style="margin:10px;" name="form1" novalidate>
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="patientId">Patient ID:</label>
+        <form class="form-horizontal" role="form" style="margin:10px;" name="searchForm" novalidate>
+            <div class="form-group search-section">
+                <div>
+                    <label class="control-label col-sm-2" for="pId">Patient/Reciept No:</label>
+                </div>
                 <div class="col-sm-4">
                     <div class="inner-addon right-inner-addon">
                         <i class="glyphicon glyphicon-search"></i>
-                        <input type="text" class="form-control" ng-model="patientId" tabindex="0" name="patientId"
-                               ng-keypress="search($event)" required ng-class="{'form-error':submitted && form1.patientId.$error.required}">
-                        <span class="error-message" ng-show="submitted && form1.patientId.$error.required">Enter ptient ID to search</span>
+                        <input type="text" class="form-control" ng-model="searchItem" name="searchItem" placeholder="Enter Patient Id or Reciept No to search" ng-keypress="search($event)" required ng-class="{'form-error':srchFrmSubmitted && searchForm.searchItem.$error.required}">
+                        <span class="error-message" ng-show="srchFrmSubmitted && searchForm.searchItem.$error.required">Enter valid Patient Id or Reciept No to search</span>
                     </div>
+                </div>
+                <div class="col-sm-4">
+                    <!--<input type="submit" value="Search" ng-click="search($event)" class="btn btn-success" />-->
+                </div>
+            </div>
+        </form>
+        <form class="form-horizontal" role="form" style="margin:10px;" name="paymentForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="patientId">Patient ID:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="patientId" tabindex="0" name="patientId" readonly />
                 </div>
                 <label class="control-label col-sm-2" for="patientName">Patient Name:</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" ng-model="patientName" readonly>
                 </div>
             </div>
-        </form>
-        <form class="form-horizontal" role="form" style="margin:10px;">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="recieptNo">Reciept No:</label>
                 <div class="col-sm-4">
-                    <input type="text" ng-model="recieptNo" tabindex="1" class="form-control" />
+                    <input type="text" ng-model="recieptNo" tabindex="1" class="form-control" readonly />
                 </div>
 
                 <label class="control-label col-sm-2" for="attendantName">Attendant Name:</label>
@@ -37,7 +47,7 @@
                 <div class="col-sm-4">
                     <p class="input-group">
                         <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup.opened"
-                               datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                               datepicker-options="dateOptions"   ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openDatePickerPopup()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -45,7 +55,7 @@
                 </div>
                 <label class="control-label col-sm-2" for="contactNo">Contact No:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model="contactNo"  readonly />
+                    <input type="text" class="form-control" ng-model="contactNo" readonly />
                 </div>
 
             </div>
@@ -67,11 +77,9 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" ng-model="amountDue" readonly />
                 </div>
-                <label class="control-label col-sm-2" for="paymentMode">Payment Mode:</label>
+                <label class="control-label col-sm-2" for="remarks">Remarks:</label>
                 <div class="col-sm-4">
-                    <select class="form-control">
-                        <option>Select</option>
-                    </select>
+                    <input type="text" class="form-control" ng-model="remarks" />
                 </div>
             </div>
             <div style="background: #00BCD4;height: 67px;margin-bottom: 12px;border: 6px solid green;">
@@ -82,7 +90,7 @@
                     </div>
                     <label class="control-label col-sm-2" for="payNow">Pay Now:</label>
                     <div class="col-sm-4">
-                        <input type="text" ng-model="payNow" class="form-control" />
+                        <input type="text" ng-model="payNow" class="form-control" ng-change="GetAmountDue()" />
                     </div>
                 </div>
             </div>
@@ -93,11 +101,11 @@
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPayment()">Add New Payment</button>
                 </div>
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePayment()">Update Payment</button>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePayment()">Update Payment</button>
                 </div>
-                <div class="col-sm-1">
-                    <button type="submit" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePayment()">Delete Payment</button>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePayment()">Delete Payment</button>
                 </div>
             </div>
         </form>

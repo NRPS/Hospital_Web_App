@@ -4,10 +4,11 @@ define([], function () {
     function PaymentService($http) {
         var service = {};
         var response = {};
-        var uri = "http://localhost/HospitalWebAPI/api/";
-        service.getPatientDataById = function (patientId) {
+        var uri = "http://localhost:2054//api/";
+
+        service.getPatientBalanceAmount = function (patientId) {
             response = $http({
-                url: uri + 'patientRegstration' + '/' + patientId,
+                url: uri + 'BalanceAmount' + '/' + patientId,
                 method: "GET",
                 dataType: "json",
                 async: false,
@@ -15,15 +16,15 @@ define([], function () {
             return response;
         };
 
-        //service.getPatientBalanceAmount = function (patientId) {
-        //    response = $http({
-        //        url: uri + 'BalanceAmount' + '/' + patientId,
-        //        method: "GET",
-        //        dataType: "json",
-        //        async: false,
-        //    })
-        //    return response;
-        //};
+        service.getPaymentDetails = function (paymentNo) {
+            response = $http({
+                url: uri + 'Payment' + '/' + paymentNo,
+                method: "GET",
+                dataType: "json",
+                async: false,
+            })
+            return response;
+        };
 
         service.addNewPayment = function (payment) {
             response = $http({
@@ -57,32 +58,6 @@ define([], function () {
             return response;
         };
 
-        //service.getReferedByList = function () {
-        //    response = $http({
-        //        url: uri + 'referedBy',
-        //        method: 'GET',
-        //        dataType: 'joson'
-        //    });
-        //    return response;
-        //};
-
-        //service.getDeparmentList = function () {
-        //    response = $http({
-        //        url: uri + 'department',
-        //        method: 'GET',
-        //        dataType: 'joson'
-        //    });
-        //    return response;
-        //};
-
-        service.getPatientTypeList = function () {
-            response = $http({
-                url: uri + 'patientType',
-                method: 'GET',
-                dataType: 'joson'
-            });
-            return response;
-        };
         return service;
     };
     PaymentService.$inject = ['$http'];

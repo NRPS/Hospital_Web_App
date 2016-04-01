@@ -1,37 +1,82 @@
 ﻿'use strict'
 
 define([], function () {
-    function PaymentCtrl($scope, $http, PaymentService) {
+    function PaymentCtrl($scope, $http, PaymentService, PatientService) {
 
         $scope.female = false;
         $scope.male = false;
 
-
-        getPatientTypeList();
-
         $scope.search = function (event) {
             if (event.which == 13) {
-                if (!$scope.form1.$valid) {
-                    $scope.submitted = true;
+                if (!$scope.searchForm.$valid) {
+                    $scope.srchFrmSubmitted = true;
                 }
-                else if ($scope.form1.$valid) {
+                else if ($scope.searchForm.$valid) {
                     $scope.isLoading = true;
-                    var response = PaymentService.getPatientDataById($scope.patientId);
-                    response.success(function (data, status, headers, config) {
-                        setData(data);
+                    var Pid = $scope.searchItem;
+                    if (Pid.charAt(4) === 'C') {
+                        var responseReceipt = PaymentService.getPaymentDetails(Pid);
+
+                        responseReceipt.success(function (data, status, headers, config) {
+                            getPaymentData(data);
+
+                            var response = PatientService.getPatientDataById(data.PatientID);
+                            $scope.isLoading = false;
+
+                            response.success(function (data, status, headers, config) {
+                                setData(data);
+                                $scope.isLoading = false;
+                            })
+                            response.error(function (data, status, headers, config) {
+                                alert(status.Message);
+                            });
+
+                            var res = PaymentService.getPatientBalanceAmount(data.PatientID);
+                            res.success(function (data, status, headers, config) {
+                                $scope.balanceAmount = data.Balance;
+                            })
+                            res.error(function (data, status, headers, config) {
+                                alert(status.Message);
+                            });
+
+                        })
+                        responseReceipt.error(function (data, status, headers, config) {
+                            alert(status.Message);
+                        });
+                    }
+                    else {
+                        var response = PatientService.getPatientDataById(Pid);
                         $scope.isLoading = false;
-                    })
-                    response.error(function (data, status, headers, config) {
-                        alert(status.Message);
-                    });
+
+                        response.success(function (data, status, headers, config) {
+                            setData(data);
+                            $scope.isLoading = false;
+                        })
+                        response.error(function (data, status, headers, config) {
+                            alert(status.Message);
+                        });
+
+                        var res = PaymentService.getPatientBalanceAmount(Pid);
+                        res.success(function (data, status, headers, config) {
+                            $scope.balanceAmount = data.Balance;
+                        })
+                        res.error(function (data, status, headers, config) {
+                            alert(status.Message);
+                        });
+                    }
                 }
             }
         }
 
+
+        $scope.GetAmountDue = function () {
+            $scope.amountDue = $scope.balanceAmount - $scope.payNow;
+        }
         $scope.addNewPayment = function () {
             var response = PaymentService.addNewPayment(setPaymentData());
             response.success(function (data, status, headers, config) {
-                console.log(data);
+                alert('Payment Details Saved');
+                refreshForm();
             });
             response.error(function (data, status, headers, config) {
             });
@@ -40,7 +85,7 @@ define([], function () {
         $scope.deletePayment = function () {
             var ajaxResponse = PaymentService.deletePaymentById($scope.patientId);
             ajaxResponse.success(function (data, status, headers, config) {
-                
+
             })
             ajaxResponse.error(function (data, status, headers, config) {
                 alert(status.Message);
@@ -69,39 +114,6 @@ define([], function () {
             $scope.popup.opened = true;
         };
 
-        //function getReferedByList() {
-        //    var ajaxResponse = PaymentService.getReferedByList();
-        //    ajaxResponse.success(function (data, status, headers, config) {
-        //        $scope.drName = data[0];
-        //        $scope.referedByList = data;
-        //    })
-        //    ajaxResponse.error(function (data, status, headers, config) {
-        //        alert(status.Message);
-        //    });
-        //};
-
-        //function getDeparmentList() {
-        //    var ajaxResponse = PaymentService.getDeparmentList();
-        //    ajaxResponse.success(function (data, status, headers, config) {
-        //        $scope.depName = data[0];
-        //        $scope.departmentList = data;
-        //    })
-        //    ajaxResponse.error(function (data, status, headers, config) {
-        //        alert(status.Message);
-        //    });
-        //};
-
-        function getPatientTypeList() {
-            var ajaxResponse = PaymentService.getPatientTypeList();
-            ajaxResponse.success(function (data, status, headers, config) {
-                $scope.patientType = data[0];
-                $scope.patientTypeList = data;
-
-            })
-            ajaxResponse.error(function (data, status, headers, config) {
-                alert(status.Message);
-            });
-        };
 
         function setData(response) {
             if (response) {
@@ -110,46 +122,70 @@ define([], function () {
                 $scope.age = response.Age;
                 $scope.attendantName = response.AttendentName;
                 $scope.address = response.Address;
-                $scope.contactNo = '+91' + response.ContactNumber1;
-              //  $scope.remarks = response.Remarks;
-
+                $scope.contactNo = response.ContactNumber1;
                 var paymentDate = new Date(response.paymentDate);
-                paymentDate = paymentDate.getFullYear() + '-' + (paymentDate.getMonth() + 1) + '-' + paymentDate.getDay();
+                paymentDate = paymentDate.getDay() + '-' + (paymentDate.getMonth() + 1) + '-' + paymentDate.getFullYear();
                 $scope.paymentDate = new Date(paymentDate);
 
                 $scope.sex = response.Sex;
 
+                if (response.TypeID === 1)
+                    $scope.patientType = "OPD";
+                else
+                    $scope.patientType = "IPD";
 
-                if ($scope.patientTypeList) {
-                    var len = $scope.patientTypeList.length;
-                    for (var i = 0; i < len; i++) {
-                        if ($scope.patientTypeList[i].ID === response.ID) {
-                            $scope.patientType = $scope.patientTypeList[i];
-                            break;
-                        }
-                    }
-                }
             }
             else {
                 alert('Some thing was wrong');
             }
         }
 
+
+        function getPaymentData(response) {
+            if (response) {
+                $scope.patientId = response.PatientID;
+                $scope.remarks = response.Remarks;
+                $scope.recieptNo = response.PaymentReceiptNo;
+                $scope.payNow = response.Amount;
+            }
+            else {
+                alert('Some thing was wrong');
+            }
+        };
+
         function setPaymentData() {
             var paymentData = {};
-
+            paymentData.PaymentReceiptNo = $scope.recieptNo;
             paymentData.PatientID = $scope.patientId;
             paymentData.Amount = $scope.payNow;
-            paymentData.PaymentMode = "1";
+            paymentData.PaymentMode = "C";
             paymentData.PaymentDate = $scope.dt;
             paymentData.Remarks = $scope.remarks;
 
             return paymentData;
-        }
+        };
+
+        function refreshForm() {
+            $scope.patientId = '';
+            $scope.patientName = '';
+            $scope.age ='';
+            $scope.attendantName = '';
+            $scope.address = '';
+            $scope.contactNo = '';
+            $scope.sex ='';
+            $scope.patientType = '';
+            $scope.payNow = '';
+            $scope.amountDue = '';
+            $scope.balanceAmount = '';
+            $scope.remarks = '';
+            $scope.paymentForm.$setPristine();
+
+        };
+
         function isArray(x) {
             return x.constructor.toString().indexOf("Array") > -1;
         }
     }
-    PaymentCtrl.$inject = ['$scope', '$http', 'PatientService'];
+    PaymentCtrl.$inject = ['$scope', '$http', 'PaymentService', 'PatientService'];
     return PaymentCtrl;
 })
