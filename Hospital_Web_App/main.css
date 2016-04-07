@@ -25,6 +25,7 @@ header{
     background-color:#4CAF50;
     border-top-left-radius: 86px;
     border-bottom-right-radius: 86px;
+    margin-bottom:3px;
 }
 
 .navbar-inverse .navbar-nav>li>a  {
