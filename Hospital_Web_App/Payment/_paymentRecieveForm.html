@@ -46,8 +46,8 @@
                 <label class="control-label col-sm-2" for="dateOfAdmit">Payment Date:</label>
                 <div class="col-sm-4">
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup.opened"
-                               datepicker-options="dateOptions"   ng-required="true" close-text="Close" />
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened"
+                               datepicker-options="dateOptions" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openDatePickerPopup()"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -94,18 +94,20 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2">
+            <div class="btn-panel">
+                <div class="form-group" style="margin-top:11px;">
+                    <div class="col-sm-2">
 
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPayment()">Add New Payment</button>
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePayment()">Update Payment</button>
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePayment()">Delete Payment</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-success" style="margin-bottom:5px;" ng-click="addNewPayment()">Add New Payment</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-info" style="margin-bottom:5px;" ng-click="updatePayment()">Update Payment</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-danger" style="margin-bottom:5px;" ng-click="deletePayment()">Delete Payment</button>
+                    </div>
                 </div>
             </div>
         </form>

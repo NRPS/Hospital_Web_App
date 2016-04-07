@@ -5,6 +5,7 @@ define([], function () {
 
         $scope.female = false;
         $scope.male = false;
+        $scope.format = 'dd - MM - yyyy';
 
         $scope.search = function (event) {
             if (event.which == 13) {
