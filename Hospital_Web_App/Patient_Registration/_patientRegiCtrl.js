@@ -6,6 +6,7 @@ define([], function () {
         //var ajaxResponse;
         $scope.female = true;
         $scope.male = false;
+        $scope.format = 'dd - MM - yyyy';
 
         getReferedByList();
         getDeparmentList();
@@ -131,24 +132,30 @@ define([], function () {
                 dateOfAdmit = dateOfAdmit.getFullYear() + '-' + (dateOfAdmit.getMonth() + 1) + '-' + dateOfAdmit.getDate();
                 $scope.dt = new Date(dateOfAdmit);
                 $scope.sex = response.Sex;
-                if ($scope.referedByList) {
-                    var len = $scope.referedByList.length;
-                    for (var i = 0; i < len; i++) {
-                        if ($scope.referedByList[i].ID === response.RefByID) {
-                            $scope.drName = $scope.referedByList[i].ID;
-                            break;
+                //if ($scope.referedByList) {
+                    //var len = $scope.referedByList.length;
+                    //for (var i = 0; i < len; i++) {
+                        if (response.RefByID===0) {
+                               $scope.drName =1;
+                          //  break;
                         }
-                    }
-                }
-                if ($scope.patientTypeList) {
-                    var len = $scope.patientTypeList.length;
-                    for (var i = 0; i < len; i++) {
-                        if ($scope.patientTypeList[i].ID === response.TypeID) {
-                            $scope.patientType = $scope.patientTypeList[i].ID; 
-                            break;
+                        else {
+                            $scope.drName = response.RefByID;
                         }
-                    }
-                }
+                   // }
+               // }
+                //if ($scope.patientTypeList) {
+                 //   var len = $scope.patientTypeList.length;
+                 //   for (var i = 0; i < len; i++) {
+                         if (response.TypeID===0) {
+                             $scope.patientType = 1;
+                       //     break;
+                         }
+                         else {
+                             $scope.patientType = response.TypeID;
+                         }
+                   // }
+               // }
             }
             else {
                 alert('Some thing was wrong');
@@ -211,7 +218,7 @@ define([], function () {
             $scope.drName = $scope.referedByList[0].ID;
             $scope.depName = $scope.departmentList[0].ID;
             $scope.patientType = $scope.patientTypeList[0].ID;
-            $scope.patientDeatilsForm.$setPristine();
+          //  $scope.patientDeatilsForm.$setPristine();
         };
 
         function isArray(x) {
