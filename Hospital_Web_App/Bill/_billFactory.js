@@ -4,19 +4,9 @@ define([], function () {
     function BillService($http) {
         var service = {};
         var response = {};
-        var uri = "http://localhost/HospitalWebAPI/api/";
+        var uri = "http://localhost:2054//api/";
 
-        service.getPatientDataById = function (patientId) {
-            response = $http({
-                url: uri + 'patientRegstration' + '/' + patientId,
-                method: "GET",
-                dataType: "jsonp",
-                async: false,
-            })
-            return response;
-        };
-
-        service.getPatientBill = function (billNo) {
+        service.getBillDetails = function (billNo) {
             response = $http({
                 url: uri + 'PatientBill' + '/' + billNo,
                 method: "GET",
@@ -26,12 +16,14 @@ define([], function () {
             return response;
         };
 
-        service.addNewBill = function (patient) {
+        service.addNewBill = function (patientBill) {
+            patientBill= JSON.stringify(patientBill)
             response = $http({
                 url: uri + 'PatientBill',
-                data: JSON.stringify(patient),
+                data: patientBill,
                 method: "POST",
                 dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 async: false,
             });
             return response;
@@ -57,6 +49,27 @@ define([], function () {
             });
             return response;
         };
+
+        service.getChargeList = function () {
+            response = $http({
+                url: uri + 'Charge',
+                method: 'GET',
+                dataType: 'joson'
+            });
+            return response;
+        };
+
+        service.getLabList = function () {
+            response = $http({
+                url: uri + 'Lab',
+                method: 'GET',
+                dataType: 'joson'
+            });
+            return response;
+        };
+
+
+
 
         service.getPatientTypeList = function () {
             response = $http({
