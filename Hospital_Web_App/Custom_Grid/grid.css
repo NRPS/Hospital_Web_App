@@ -1,0 +1,13 @@
+﻿.custom-header{
+    background-color:#19AB96;
+        font-size: 15px;
+    font-family: cursive;
+    cursor:pointer;
+}
+
+.grid-container{
+        border: 5px solid #FF9800;
+    padding: 5px;
+    background-color: white;
+    margin:10px 0px 10px 0px;
+}

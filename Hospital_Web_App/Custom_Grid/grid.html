@@ -1,0 +1,59 @@
+﻿<div class="grid-container">
+    <table class="table" style="margin-bottom:0px;">
+        <thead>
+            <tr class="custom-header">
+                <td ng-repeat="column in headerName" ng-click="doSorting(column.field)">
+                    {{column.field}}<i class="fa fa-fw fa-sort"></i>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="data in tblData | filter:keyword | orderBy:input" ng-include="getTemplate(data)" class="info"></tr>
+        </tbody>
+    </table>
+
+    <script type="text/ng-template" id="display">
+        <td>
+            {{data.lab}}
+        </td>
+        <td>
+            {{data.desc}}
+        </td>
+        <td>
+            {{data.quantity}}
+        </td>
+        <td>
+            {{data.rate}}
+        </td>
+        <td>
+            {{data.discount}}
+        </td>
+        <td>
+            {{data.amount}}
+        </td>
+        <td>
+            {{data.netAmount}}
+        </td>
+        <td>
+            <button ng-click="editContact(data)" class="btn btn-default">Edit</button>
+        </td>
+        <td>
+            <button ng-click="deleteRow($index)" class="btn btn-danger">Delete</button>
+        </td>
+    </script>
+    <script type="text/ng-template" id="edit">
+        <td><input type="text" ng-model="model.selected.lab" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.desc" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.qty" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.rate" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.discount" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.amount" class="form-control" /></td>
+        <td><input type="text" ng-model="model.selected.netAmount" class="form-control" /></td>
+        <td>
+            <button ng-click="saveContact($index)" class="btn btn-success">Save</button>
+        </td>
+        <td>
+            <button ng-click="reset()" class="btn btn-danger">Cancel</button>
+        </td>
+    </script>
+</div>
