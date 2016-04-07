@@ -13,7 +13,7 @@ namespace HospitalWebAPI.Models
         public decimal? Amount{get;set;}
         public string PaymentMode{get;set;}
         public string BillNo{get;set;}
-        public string RegistratonNo{get;set;}
+        public string RegistrationNo{get;set;}
         public string Remarks { get; set; }
     }
 } 
