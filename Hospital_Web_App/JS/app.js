@@ -15,9 +15,13 @@ define(
         'Payment/_paymentFactory',
         'Bill/_BillCtrl',
         'Bill/_BillFactory',
+        'Custom_Grid/gridCtrl',
+        'Custom_Grid/gridDirective',
         'bower_components/angular-ui-bootstrap/ui-bootstrap',
     ],
-    function (Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl, PatientService, PaymentCtrl, PaymentService,BillCtrl, BillService) {
+    function (
+        Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl,
+        PatientService, PaymentCtrl, PaymentService, BillCtrl, BillService, DataGridCtrl,GridDirective) {
 
         var app = angular.module('hospital', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
         
@@ -25,15 +29,18 @@ define(
         app.run(RunApp);
         app.factory('Base64', Base64Encoder);
         app.factory('LoginService', logInfactory);
-        app.factory('PatientService', PatientService)
-        app.factory('PaymentService', PaymentService)
-        app.factory('BillService', BillService)
+        app.factory('PatientService', PatientService);
+        app.factory('PaymentService', PaymentService);
+        app.factory('BillService', BillService);
         app.controller('LoginCtrl', Login);
         app.controller('UserRegistrationCtrl', SignUp);
-        app.controller('SignOutCtrl', SignOutCtrl)
-        app.controller('PatientRegiCtrl', PatientRegiCtrl)
-        app.controller('PaymentCtrl', PaymentCtrl)
-        app.controller('BillCtrl', BillCtrl)
+        app.controller('SignOutCtrl', SignOutCtrl);
+        app.controller('PatientRegiCtrl', PatientRegiCtrl);
+        app.controller('PaymentCtrl', PaymentCtrl);
+        app.controller('BillCtrl', BillCtrl);
+        app.controller('DataGridCtrl', DataGridCtrl);
+        app.directive('datagrid', GridDirective);
+
         app.controller('AppCtrl', ['$scope', '$rootScope', '$cookieStore', function ($scope, $rootScope, $cookieStore) {
             if ($cookieStore.get('globals') != undefined) {
                 $scope.login = false;
