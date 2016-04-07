@@ -46,8 +46,8 @@ namespace HospitalWebAPI.Controllers
             PatientBalanceAmount BA = new PatientBalanceAmount();
 
             BA.PatientID = PatientID;
-            BA.TotalBillAmount = du.GetScalarValueDecimal("Select sum(BillTotal) from PatientBill  where  patientid='" + PatientID + "' and IsDeleted=0 ");
-            BA.TotalPayAmount = du.GetScalarValueDecimal("Select sum(Amount) from Payment where patientid='" + PatientID + "' and IsDeleted=0 ");
+            BA.TotalBillAmount = du.GetScalarValueDecimal("Select sum(BillTotal) from PatientBill  where   patientid='" + PatientID + "' and IsDeleted=0 ");
+            BA.TotalPayAmount = du.GetScalarValueDecimal("Select sum(Amount) from Payment where (registrationno is null or registrationno='') and patientid='" + PatientID + "' and IsDeleted=0 ");
             BA.Balance = BA.TotalBillAmount - BA.TotalPayAmount;
             PatientBalanceAmountList.Add(BA);
         }

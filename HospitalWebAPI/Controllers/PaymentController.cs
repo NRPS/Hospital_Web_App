@@ -53,7 +53,7 @@ namespace HospitalWebAPI.Controllers
         }
 
         // PUT: api/Payment/5
-        public IHttpActionResult Put(int id, [FromBody]Payment payment)
+        public IHttpActionResult Put([FromBody]Payment payment)
         {
             PaymentLocal paymentLocal = new PaymentLocal();
 
@@ -93,7 +93,7 @@ namespace HospitalWebAPI.Controllers
                     BillNo = r.Field<string>("BillNo"),
                     PaymentDate = r.Field<DateTime?>("PaymentDate"),
                     PaymentMode = r.Field<string>("PaymentMode"),
-                    RegistratonNo = r.Field<string>("RegistratonNo"),
+                    RegistrationNo = r.Field<string>("RegistrationNo"),
                     Remarks = r.Field<string>("Remarks"),
                 }).ToList();
             }
@@ -146,7 +146,7 @@ public class PaymentLocal
             payment.CompanyCode = LogDetails.CurrentCompanyCode;
 
             return du.AddRow(@"insert into Payment(ID, PaymentReceiptNo, PatientID, PaymentDate, Amount, PaymentMode, UserID, AddDate, ModifiyDate, Fyear,
-                        IsDeleted, BillNo, RegistratonNo, Remarks) 
+                        IsDeleted, BillNo, RegistrationNo, Remarks) 
             values(" + payment.ID + ",'" + payment.PaymentReceiptNo + "', '" + payment.PatientID + "', '" + payment.PaymentDate + "', " + payment.Amount
          + ", '" + payment.PaymentMode + "', " + payment.UserID + ", '" + payment.AddDate + "', '" + payment.ModifiyDate + "', " + payment.Fyear + "," + payment.IsDeleted
          + ",'" + payment.BillNo + "', '" + payment.PatientID + "', '" + payment.Remarks + "')");

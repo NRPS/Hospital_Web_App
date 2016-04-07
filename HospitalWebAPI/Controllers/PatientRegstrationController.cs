@@ -167,7 +167,7 @@ namespace HospitalWebAPI.Controllers
 
                 payment = new Payment();
 
-                payment.RegistratonNo = patient.PatientID;
+                payment.RegistrationNo = patient.PatientID;
                 payment.PatientID= patient.PatientID;
                 payment.Amount = patient.ConsultantFee;
                 payment.Remarks = "Regsitration Fee";
@@ -204,12 +204,11 @@ namespace HospitalWebAPI.Controllers
                     ", RegDate = '" + patient.RegDate + "', RegTime = '" + patient.RegTime + "', UserID = " + patient.UserID + 
                     ", ModifiyDate = '" + patient.ModifiyDate + "', Remarks = '" + patient.Remarks + "', IsPaymentPaid = " + patient.IsPaymentPaid + " where PatientID = '" + patient.PatientID + "'");
 
-                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistratonNo ='" + patient.PatientID + "'");
+                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistrationNo ='" + patient.PatientID + "'");
 
                 payment = new Payment();
 
                 payment.PaymentReceiptNo= paymentReceiptNo;
-              //  payment.RegistratonNo = patient.PatientID;
                 payment.Amount = patient.ConsultantFee;
                 payment.Remarks = "Regsitration Fee";
                 payment.PaymentDate = patient.RegDate;
@@ -229,7 +228,7 @@ namespace HospitalWebAPI.Controllers
         {
             try
             {
-                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistratonNo ='" + ID + "'");
+                string paymentReceiptNo = du.GetScalarValueString("select PaymentReceiptNo from Payment where RegistrationNo ='" + ID + "'");
 
                 du.DeleteRow(@"update PatientRegstration set IsDeleted = 1 where PatientID ='" + ID + "'");
 
