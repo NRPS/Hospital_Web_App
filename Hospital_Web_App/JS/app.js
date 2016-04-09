@@ -17,11 +17,13 @@ define(
         'Bill/_BillFactory',
         'Custom_Grid/gridCtrl',
         'Custom_Grid/gridDirective',
+        'Print/_printCtrl',
+        'Print/_printDirective',
         'bower_components/angular-ui-bootstrap/ui-bootstrap',
     ],
     function (
         Config, RunApp, Login, SignUp, Base64Encoder, logInfactory, SignOutCtrl, PatientRegiCtrl,
-        PatientService, PaymentCtrl, PaymentService, BillCtrl, BillService, DataGridCtrl,GridDirective) {
+        PatientService, PaymentCtrl, PaymentService, BillCtrl, BillService, DataGridCtrl, GridDirective,PrintCtrl, printData) {
 
         var app = angular.module('hospital', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
         
@@ -40,6 +42,8 @@ define(
         app.controller('BillCtrl', BillCtrl);
         app.controller('DataGridCtrl', DataGridCtrl);
         app.directive('datagrid', GridDirective);
+        app.controller('PrintCtrl', PrintCtrl);
+        app.directive('printData', printData);
 
         app.controller('AppCtrl', ['$scope', '$rootScope', '$cookieStore', function ($scope, $rootScope, $cookieStore) {
             if ($cookieStore.get('globals') != undefined) {
