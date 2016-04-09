@@ -6,7 +6,7 @@ define([], function () {
             /* Dummy authentication for testing, uses $timeout to simulate api call
              ----------------------------------------------*/
             $timeout(function () {
-                var response = { success: username == 'prem@gmail.com' && password == '123' };
+                var response = { success: username == 'hms@gmail.com' && password == '123' };
                 if (!response.success) {
                     response.message = 'Username or password is incorrect';
                 }
