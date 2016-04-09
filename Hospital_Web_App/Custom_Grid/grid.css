@@ -1,4 +1,5 @@
-﻿.custom-header{
+﻿@import url('grid.css');
+.custom-header{
     background-color:#19AB96;
         font-size: 15px;
     font-family: cursive;
@@ -10,4 +11,8 @@
     padding: 5px;
     background-color: white;
     margin:10px 0px 10px 0px;
+}
+
+.col-width{
+        width: 15%;
 }

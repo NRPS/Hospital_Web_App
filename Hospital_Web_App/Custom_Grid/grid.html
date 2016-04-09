@@ -13,7 +13,7 @@
     </table>
 
     <script type="text/ng-template" id="display">
-        <td>
+        <td ng-class="colWidth">
             {{data.lab}}
         </td>
         <td>
@@ -26,31 +26,31 @@
             {{data.rate}}
         </td>
         <td>
-            {{data.discount}}
+            {{data.amount}}
         </td>
         <td>
-            {{data.amount}}
+            {{data.discount}}
         </td>
         <td>
             {{data.netAmount}}
         </td>
         <td>
-            <button ng-click="editContact(data)" class="btn btn-default">Edit</button>
+            <button ng-click="edit(data,$index)" class="btn btn-default">Edit</button>
         </td>
         <td>
             <button ng-click="deleteRow($index)" class="btn btn-danger">Delete</button>
         </td>
     </script>
     <script type="text/ng-template" id="edit">
-        <td><input type="text" ng-model="model.selected.lab" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.desc" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.qty" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.rate" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.discount" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.amount" class="form-control" /></td>
-        <td><input type="text" ng-model="model.selected.netAmount" class="form-control" /></td>
+        <td><select class="form-control" ng-options="item.Code as item.Name for item in labList" ng-model="model.selected.lab"></select></td>
+        <td><select class="form-control" ng-options="item.Code as item.Description for item in chargeList" ng-model="model.selected.desc" ng-change="getRate()"></select></td>
+        <td><input type="text" ng-model="model.selected.quantity" class="form-control" ng-change="calAmoumt()" /></td>
+        <td><input type="text" ng-model="model.selected.rate" class="form-control" ng-change="calAmoumt()" /></td>
+        <td><input type="text" ng-model="model.selected.amount" class="form-control" readonly/></td>
+        <td><input type="text" ng-model="model.selected.discount" class="form-control" ng-change="calAmoumt()" /></td>
+        <td><input type="text" ng-model="model.selected.netAmount" class="form-control" readonly/></td>
         <td>
-            <button ng-click="saveContact($index)" class="btn btn-success">Save</button>
+            <button ng-click="save($index)" class="btn btn-success">Save</button>
         </td>
         <td>
             <button ng-click="reset()" class="btn btn-danger">Cancel</button>

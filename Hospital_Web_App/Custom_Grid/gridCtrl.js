@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 define([], function () {
-    function DataGridCtrl($scope, $rootScope) {
+    function DataGridCtrl($scope, $rootScope, $http, BillService, PatientService) {
         $scope.gridData = $scope.tblData;
         $scope.edit = false;
         var count = 0;
@@ -22,8 +22,8 @@ define([], function () {
             }
         }
         $scope.deleteRow = function (index) {
-            console.log($rootScope.billItems);
-            $rootScope.billItems.splice(index,1);
+            //console.log($rootScope.billItems);
+            $scope.$emit('billItemsChanged', [index,'-']);
         };
 
         $scope.model = {
@@ -37,21 +37,68 @@ define([], function () {
             else return 'display';
         };
 
-        $scope.editContact = function (editedData) {
+        $scope.edit = function (editedData,index) {
             $scope.model.selected = angular.copy(editedData);
+            getChargeList(index);
+            getLabList(index);
+            $scope.colWidth = 'col-width';
         };
 
-        $scope.saveContact = function (idx) {
-            console.log("Saving contact");
+        $scope.save = function (idx) {
+            $scope.colWidth = '';
             $scope.model.billItem[idx] = angular.copy($scope.model.selected);
             $rootScope.billItems = $scope.model.billItem;
+            for (var i = 0; i < $scope.chargeList.length;i++){
+                if ($scope.chargeList[i].Code === $scope.model.selected.desc) {
+                    $rootScope.billItems[idx].desc = $scope.chargeList[i].Description;
+                    break;
+                }
+            }
+            for (var i = 0; i < $scope.labList.length; i++) {
+                if ($scope.labList[i].Code === $scope.model.selected.lab) {
+                    $rootScope.billItems[idx].lab = $scope.labList[i].Name;
+                    break;
+                }
+            }
+            $scope.$emit('billItemsChanged', [idx, '+']);
             $scope.reset();
         };
 
         $scope.reset = function () {
             $scope.model.selected = {};
         };
+
+        $scope.calAmoumt=function(){
+            $scope.model.selected.amount= $scope.model.selected.quantity* $scope.model.selected.rate;
+            $scope.model.selected.netAmount = $scope.model.selected.amount - $scope.model.selected.discount;
+        };
+
+        function getChargeList(index) {
+            var ajaxResponse = BillService.getChargeList();
+            ajaxResponse.success(function (data, status, headers, config) {
+                if ($rootScope.billItems) {
+                    $scope.model.selected.desc = $rootScope.billItems[index].itemCode;
+                }
+                $scope.chargeList = data;
+            })
+            ajaxResponse.error(function (data, status, headers, config) {
+                alert(status.Message);
+            });
+        };
+
+        function getLabList(index) {
+            var ajaxResponse = BillService.getLabList();
+            ajaxResponse.success(function (data, status, headers, config) {
+                if ($rootScope.billItems) {
+                    $scope.model.selected.lab = $rootScope.billItems[index].labCode;
+                }
+                $scope.labList = data;
+            })
+            ajaxResponse.error(function (data, status, headers, config) {
+                alert(status.Message);
+            });
+        };
     };
-    DataGridCtrl.$inject = ['$scope','$rootScope'];
+    DataGridCtrl.$inject = ['$scope', '$rootScope', '$http', 'BillService', 'PatientService'];
     return DataGridCtrl;
 });
